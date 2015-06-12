@@ -212,3 +212,21 @@ Plain:
         metadata:
             geometry: a4paper
 
+
+#######################################################################
+#                    Work, style for working paper                    #
+#######################################################################
+
+Work:
+    all:
+	    metadata:
+            csl: apa.csl
+        filter:
+            - run: pandoc-citeproc
+    latex:
+        latex-engine: xelatex
+        template: wp_memoir.latex
+    docx:
+        commandline:
+            reference-docx: "`apa_styles.docx`"
+

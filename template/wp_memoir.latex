@@ -80,7 +80,9 @@
 \usepackage[url=false,style=apa,sortcites=true,sorting=nyt,backend=biber]{biblatex}
 \DeclareLanguageMapping{american}{american-apa}
 
-\bibliography{references}
+$if(bibliography)$
+\addbibresource{$bibliography$}
+$endif$
 
 $if(tables)$
     \usepackage{longtable}
