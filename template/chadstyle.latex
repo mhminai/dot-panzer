@@ -1,0 +1,90 @@
+\documentclass[10pt,twoside]{article}
+\usepackage{chadstyle}  % Loads my formatting 
+%\usepackage{tweaklist}  % I use this package as well; you may need to download
+
+
+$if(biblatex)$
+$if(bibliography)$
+\addbibresource{$bibliography$}
+$endif$
+$endif$
+
+$if(tables)$
+    \usepackage{longtable}
+    \usepackage{booktabs}
+    \usepackage{threeparttable}
+    \usepackage{dcolumn}
+    \DeclareMathVersion{nxbold}
+    \SetSymbolFont{operators}{nxbold}{OT1}{cmr} {b}{n}
+    \SetSymbolFont{letters}  {nxbold}{OML}{cmm} {b}{it}
+    \SetSymbolFont{symbols}  {nxbold}{OMS}{cmsy}{b}{n}
+    \newcolumntype{d}[1]{D{.}{\cdot}{#1}}
+    \newcolumntype{.}{D{.}{\cdot}{2}}
+    \makeatletter
+    \newcolumntype{B}{>{\boldmath\DC@{.}{\cdot}{2}}c<{\DC@end}}
+    \newcolumntype{Z}{>{\mathversion{nxbold}\DC@{.}{\cdot}{2}}c<{\DC@end}}
+    \makeatother
+    %\usepackage{tabular}
+$endif$
+
+
+\setcounter{secnumdepth}{0}
+
+
+%% Shortcut commands
+\newcommand{\proptitle}[1]{\color{ChadBlue} \textnormal{(#1):}}
+\newtheorem{proposition}{\color{ChadGreen} Proposition}
+\newcommand{\assume}[2]{{\bf{Assumption #1}} (#2)} 
+\newcommand{\clr}[1]{{\color{ChadBlue} #1}}
+\newcommand{\clrg}[1]{{\color{ChadGreen} #1}}
+\newcommand{\Proof}[2]{\newline {\hspace{-\parindent} {\color{ChadGreen}\bf Proof of Proposition}~\ref{#1}.}
+{\color{ChadBlue} #2} \vspace{.1in}}
+
+% If you've loaded *tweaklist.sty* above, uncomment these lines:
+% Adjust spacing in itemize/enumerate; see tweaklist.sty
+%\renewcommand{\enumhook}{\setlength{\topsep}{2pt}%
+%  \setlength{\itemsep}{0pt}}
+%\renewcommand{\itemhook}{\setlength{\topsep}{2pt}%
+%  \setlength{\itemsep}{0pt}}
+
+\begin{document}
+%\bibliographystyle{aernobold}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TITLE PAGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{singlespacing}
+\begin{spacing}{0.9}
+\begin{titlepage}
+
+\title{$title$}
+\runningheads{$author$}{$if(shorttitle)$$shorttitle$$else$$author$$endif$}
+
+\author{$for(author)$ \large $author.name$, $sep$ \and $endfor$ $if(thanks)$ \thanks{$thanks$} $endif$\\ 
+    {Indian Institute of Management, Lucknow}
+   }
+
+\date{\small \today $if(version)$\ -- Version $version$ $endif$\\ {\it Preliminary}}
+\maketitle
+\thispagestyle{empty}
+
+%\clearpage
+\vspace{-0.3in}
+
+\begin{abstract}
+   $abstract$
+\end{abstract}
+
+\end{titlepage}
+\end{spacing}
+%\end{singlespacing}
+
+$body$
+
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=References]$endif$
+$endif$
+
+
+\end{document}

@@ -219,14 +219,75 @@ Plain:
 
 Work:
     all:
+        commandline:
+            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
 	    metadata:
-            csl: apa.csl
+            published: "*Draft only. Please do not cite without permission.*"
         filter:
             - run: pandoc-citeproc
     latex:
         latex-engine: xelatex
-        template: wp_memoir.latex
-    docx:
+        #template: wp_memoir.latex
+        template: chadstyle.latex
+        #template: article.latex
+        metadata:
+            fontsize: 12pt
         commandline:
-            reference-docx: "`apa_styles.docx`"
+            biblatex: true
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py -pdflatex=xelatex
+            - run: open_pdf.py
+        cleanup:
+            - run: tmp_back.py
+            - run: rmlatex.py
+    html:
+        template: article.html
+        commandline:
+            include-in-header: "`/Users/mhminai/.panzer/template/css/momento-pandoc.css`"
+        filter:
+            - run: addrefline.py
+            - run: pandoc-citeproc
+    docx:
+        filter:
+            - run: addrefline.py
+            - run: pandoc-citeproc
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
+
+ChadStyle:
+    all:
+        commandline:
+            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
+	metadata:
+            published: "*Draft only. Please do not cite without permission.*"
+    latex:
+        metadata:
+            fontsize: 10pt
+        commandline:
+            latex-engine: "`xelatex`"
+            biblatex: true
+        template: chadstyle.latex
+        #preflight:
+        #    - run: tmp_out.py
+        #postflight:
+        #    - run: latexmk.py
+        #    - run: open_pdf.py
+        #cleanup:
+        #    - run: tmp_back.py
+        #    - run: rmlatex.py
+    html:
+        template: article.html
+        commandline:
+            include-in-header: "`/Users/mhminai/.panzer/template/css/momento-pandoc.css`"
+        filter:
+            - run: addrefline.py
+            - run: pandoc-citeproc
+    docx:
+        filter:
+            - run: addrefline.py
+            - run: pandoc-citeproc
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
 
