@@ -226,18 +226,16 @@ Work:
         filter:
             - run: pandoc-citeproc
     latex:
-        latex-engine: xelatex
-        #template: wp_memoir.latex
-        template: chadstyle.latex
-        #template: article.latex
         metadata:
             fontsize: 12pt
         commandline:
+            latex-engine: "`xelatex`"
             biblatex: true
+        template: wp_memoir.latex
         preflight:
             - run: tmp_out.py
         postflight:
-            - run: latexmk.py -pdflatex=xelatex
+            - run: latexmk.py
             - run: open_pdf.py
         cleanup:
             - run: tmp_back.py
@@ -251,7 +249,6 @@ Work:
             - run: pandoc-citeproc
     docx:
         filter:
-            - run: addrefline.py
             - run: pandoc-citeproc
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
@@ -260,7 +257,7 @@ ChadStyle:
     all:
         commandline:
             csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
-	metadata:
+	    metadata:
             published: "*Draft only. Please do not cite without permission.*"
     latex:
         metadata:
@@ -286,8 +283,43 @@ ChadStyle:
             - run: pandoc-citeproc
     docx:
         filter:
-            - run: addrefline.py
             - run: pandoc-citeproc
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
 
+ApaStyle:
+    all:
+        commandline:
+            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
+	    metadata:
+            published: "*Draft only. Please do not cite without permission.*"
+    latex:
+        metadata:
+            fontsize: 12pt
+        commandline:
+            latex-engine: "`xelatex`"
+            biblatex: true
+        template: wp_memoir.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+            - run: open_pdf.py
+        cleanup:
+            - run: tmp_back.py
+            - run: rmlatex.py
+    docx:
+        filter:
+            - run: pandoc-citeproc
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
+
+LodjStyle:
+    all:
+	    metadata:
+            csl: "`/Users/mhminai/.panzer/template/csl/lodj.csl`"
+        filter:
+            - run: pandoc-citeproc
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"

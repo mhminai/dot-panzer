@@ -135,7 +135,7 @@ $endif$
 %%    \large\emph{$author.affiliation$} \vspace*{0.1in} \\
 %%    \normalsize\url{$author.email$}\vspace*{0.2in} \\
 %%    $sep$ \and $endfor$}
-\author{$for(author)$\Large $author.name$, $sep$ \and $endfor$}
+\author{$for(author)$\Large $author.name$,$sep$ \and $endfor$}
 
 \date{\textsc{$date$}}
 

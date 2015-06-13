@@ -59,9 +59,9 @@ $endif$
 \begin{titlepage}
 
 \title{$title$}
-\runningheads{$author$}{$if(shorttitle)$$shorttitle$$else$$author$$endif$}
+\runningheads{$author.name$}{$if(shorttitle)$$shorttitle$$else$$author$$endif$}
 
-\author{$for(author)$ \large $author.name$, $sep$ \and $endfor$ $if(thanks)$ \thanks{$thanks$} $endif$\\ 
+\author{$for(author)$ \large \href{http://www.iiml.ac.in}{$author.name$},$sep$ \and $endfor$ $if(thanks)$ \thanks{$thanks$} $endif$\\ 
     {Indian Institute of Management, Lucknow}
    }
 
@@ -70,7 +70,7 @@ $endif$
 \thispagestyle{empty}
 
 %\clearpage
-\vspace{-0.3in}
+%\vspace{-0.3in}
 
 \begin{abstract}
    $abstract$
