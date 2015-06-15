@@ -221,7 +221,7 @@ Work:
     all:
         commandline:
             csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
-	    metadata:
+        metadata:
             published: "*Draft only. Please do not cite without permission.*"
         filter:
             - run: pandoc-citeproc
@@ -257,7 +257,7 @@ ChadStyle:
     all:
         commandline:
             csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
-	    metadata:
+        metadata:
             published: "*Draft only. Please do not cite without permission.*"
     latex:
         metadata:
@@ -266,14 +266,14 @@ ChadStyle:
             latex-engine: "`xelatex`"
             biblatex: true
         template: chadstyle.latex
-        #preflight:
-        #    - run: tmp_out.py
-        #postflight:
-        #    - run: latexmk.py
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
         #    - run: open_pdf.py
-        #cleanup:
-        #    - run: tmp_back.py
-        #    - run: rmlatex.py
+        cleanup:
+            - run: tmp_back.py
+            - run: rmlatex.py
     html:
         template: article.html
         commandline:
@@ -291,7 +291,7 @@ ApaStyle:
     all:
         commandline:
             csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
-	    metadata:
+        metadata:
             published: "*Draft only. Please do not cite without permission.*"
     latex:
         metadata:
@@ -304,7 +304,7 @@ ApaStyle:
             - run: tmp_out.py
         postflight:
             - run: latexmk.py
-            - run: open_pdf.py
+        #    - run: open_pdf.py
         cleanup:
             - run: tmp_back.py
             - run: rmlatex.py
@@ -316,10 +316,25 @@ ApaStyle:
 
 LodjStyle:
     all:
-	    metadata:
+        metadata:
             csl: "`/Users/mhminai/.panzer/template/csl/lodj.csl`"
         filter:
             - run: pandoc-citeproc
+    latex:
+        metadata:
+            fontsize: 12pt
+        commandline:
+            latex-engine: "`xelatex`"
+            biblatex: true
+        template: wp_memoir.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        #    - run: open_pdf.py
+        cleanup:
+            - run: tmp_back.py
+            - run: rmlatex.py
     docx:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
