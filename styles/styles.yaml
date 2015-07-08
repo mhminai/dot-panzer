@@ -310,3 +310,24 @@ LodjStyle:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
         filter:
             - run: pandoc-citeproc
+
+MthemePres:
+    beamer:
+        metadata:
+            fontsize: 10pt
+            classoption: compress
+            theme: m
+            themeoptions:
+                - usetitleprogressbar
+                - noslidenumbers
+                - nooffset
+        commandline:
+            latex-engine: "`xelatex`"
+            biblatex: true
+        template: beamer-m.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        cleanup:
+            - run: tmp_back.py

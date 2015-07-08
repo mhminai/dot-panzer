@@ -8,30 +8,7 @@ $endif$
 $if(fonttheme)$
 \usefonttheme{$fonttheme$}
 $endif$
-\setbeamertemplate{caption}[numbered]
-\setbeamertemplate{caption label separator}{:}
-\setbeamercolor{caption name}{fg=normal text.fg}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
-\usepackage{lmodern}
-\ifxetex
-  \usepackage{fontspec,xltxtra,xunicode}
-  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-  \newcommand{\euro}{€}
-\else
-  \ifluatex
-    \usepackage{fontspec}
-    \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-    \newcommand{\euro}{€}
-  \else
-    \usepackage[T1]{fontenc}
-    \usepackage[utf8]{inputenc}
-    $if(euro)$
-      \usepackage{eurosym}
-    $endif$
-  \fi
-\fi
+
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 % use microtype if available
@@ -46,18 +23,7 @@ $for(biblio-files)$
 \addbibresource[datatype=bibtex]{$biblio-files$}
 $endfor$
 $endif$
-$if(listings)$
-\usepackage{listings}
-$endif$
-$if(lhs)$
-\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
-$endif$
-$if(highlighting-macros)$
-$highlighting-macros$
-$endif$
-$if(verbatim-in-note)$
-\usepackage{fancyvrb}
-$endif$
+
 $if(tables)$
 \usepackage{longtable,booktabs}
 \usepackage{caption}
@@ -81,42 +47,6 @@ $if(graphics)$
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 $endif$
 
-% Comment these out if you don't want a slide with just the
-% part/section/subsection/subsubsection title:
-\AtBeginPart{
-  \let\insertpartnumber\relax
-  \let\partname\relax
-  \frame{\partpage}
-}
-\AtBeginSection{
-  \let\insertsectionnumber\relax
-  \let\sectionname\relax
-  \frame{\sectionpage}
-}
-\AtBeginSubsection{
-  \let\insertsubsectionnumber\relax
-  \let\subsectionname\relax
-  \frame{\subsectionpage}
-}
-
-$if(strikeout)$
-\usepackage[normalem]{ulem}
-% avoid problems with \sout in headers with hyperref:
-\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
-$endif$
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-$if(numbersections)$
-$else$
-\setcounter{secnumdepth}{0}
-$endif$
-$if(verbatim-in-note)$
-\VerbatimFootnotes % allows verbatim text in footnotes
-$endif$
-$if(lang)$
-\usepackage[$lang$]{babel}
-$endif$
 $for(header-includes)$
 $header-includes$
 $endfor$
