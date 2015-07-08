@@ -1,5 +1,5 @@
-%\documentclass[a4paper, oneside, 12pt, article]{memoir}
-\documentclass[article]{memoir}
+\documentclass[a4paper, 12pt, article]{memoir}
+%\documentclass[article]{memoir}
 \usepackage[american]{babel}
 \usepackage{libertine}
 
@@ -23,9 +23,9 @@
 
 \makechapterstyle{article-4}{
   \setsecheadstyle{\Large\scshape\MakeLowercase} 
-  \setsubsecheadstyle{\normalsize\itshape} 
+  \setsubsecheadstyle{\normalsize\bfseries} 
   \setaftersubsubsecskip{-1em}
-  \setsubsubsecheadstyle{\small\bfseries}
+  \setsubsubsecheadstyle{\small\itshape\bfseries}
   \renewcommand{\printchaptername}{} 
   \renewcommand{\chapternamenum}{} 
   \renewcommand{\chapnumfont}{\chaptitlefont} 
@@ -50,7 +50,7 @@
 
   % % Title flush left
    \pretitle{\vspace*{0cm}\begin{flushleft}\LARGE\bfseries}
-   \posttitle{\end{flushleft}\par\vskip 0.5em}
+   \posttitle{\\ \vspace*{1cm}\large\mdseries\scshape $subtitle$ \end{flushleft}\par\vskip 0.5em}
    \preauthor{\begin{flushleft}\normalsize}
    \postauthor{\end{flushleft}}
    \predate{\vspace*{0.6em}\begin{flushleft}\large}
@@ -59,19 +59,19 @@
   % 'abstract' bigger skip from title
   %\addto\captionsamerican{\renewcommand{\abstractname}{}}
   %\renewcommand{\abstractname}{}
-  \renewcommand{\abstracttextfont}{\slshape\footnotesize}
+  \renewcommand{\abstracttextfont}{\slshape\normalsize}
   %\abstractrunin
 }
 
 
 \makepagestyle{mhm}
 \makeheadrule{mhm}{\textwidth}{\normalrulethickness}
-\makefootrule{mhm}{\textwidth}{\normalrulethickness}{\footruleskip}
+%\makefootrule{mhm}{\textwidth}{\normalrulethickness}{\footruleskip}
 %\makefootrule{mhm}{}{}
 \makeevenfoot{mhm}{\thepage}{}{}
 \makeoddfoot{mhm}{}{}{\thepage}
-\makeevenhead{mhm}{$wp_num$}{}{}
-\makeoddhead{mhm}{}{}{$wp_num$}
+\makeevenhead{mhm}{$wp_num$}{\color{Blue}\scshape\MakeLowercase{$shorttitle$}}{}
+\makeoddhead{mhm}{}{\color{Blue}\scshape\MakeLowercase{$author$}}{$wp_num$}
 
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -135,7 +135,11 @@ $endif$
 %%    \large\emph{$author.affiliation$} \vspace*{0.1in} \\
 %%    \normalsize\url{$author.email$}\vspace*{0.2in} \\
 %%    $sep$ \and $endfor$}
-\author{$for(author)$\Large $author.name$,$sep$ \and $endfor$}
+$if(author.name)$
+\author{$for(author)$\Large $author.name$,$sep$ \and $endfor$ $if(thanks)$\thanks{$thanks$}$endif$}
+$else$
+\author{\Large $author$ $if(thanks)$\thanks{$thanks$}$endif$}
+$endif$
 
 \date{\textsc{$date$}}
 
@@ -183,25 +187,21 @@ $if(toc)$
 }
 $endif$
 
-%%\begin{flushleft}\LARGE\bfseries\thetitle\end{flushleft}\par\vskip 0.5em
-%%\bigskip
-%%\bigskip
-%%\begin{abstract}
-%%\noindent
-%%$abstract$
-%%\end{abstract}
-%%\bigskip
-%%{\par \textbf{keywords:}$for(keywords)$ $keywords$$sep$, $endfor$}
-%%\vfill
-%%{\par }
+$if(abstract)$
+\begin{abstract}
+   $abstract$
+\end{abstract}
+
+$endif$
+
 $body$
 
-
+\newpage
 $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=References]
 $endif$
 
-\listoftodos
+%%\listoftodos
 
 $endif$
 $for(include-after)$

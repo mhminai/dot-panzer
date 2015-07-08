@@ -218,13 +218,6 @@ Plain:
 #######################################################################
 
 Work:
-    all:
-        commandline:
-            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
-        metadata:
-            published: "*Draft only. Please do not cite without permission.*"
-        filter:
-            - run: pandoc-citeproc
     latex:
         metadata:
             fontsize: 12pt
@@ -236,56 +229,37 @@ Work:
             - run: tmp_out.py
         postflight:
             - run: latexmk.py
-            - run: open_pdf.py
+            #- run: open_pdf.py
         cleanup:
             - run: tmp_back.py
             - run: rmlatex.py
-    html:
-        template: article.html
-        commandline:
-            include-in-header: "`/Users/mhminai/.panzer/template/css/momento-pandoc.css`"
-        filter:
-            - run: addrefline.py
-            - run: pandoc-citeproc
-    docx:
-        filter:
-            - run: pandoc-citeproc
-        commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
 
 ChadStyle:
-    all:
-        commandline:
-            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
-        metadata:
-            published: "*Draft only. Please do not cite without permission.*"
     latex:
         metadata:
             fontsize: 10pt
         commandline:
             latex-engine: "`xelatex`"
-            biblatex: true
         template: chadstyle.latex
         preflight:
             - run: tmp_out.py
-        postflight:
-            - run: latexmk.py
-        #    - run: open_pdf.py
         cleanup:
             - run: tmp_back.py
             - run: rmlatex.py
-    html:
-        template: article.html
+
+PanCite:
+    all:
         commandline:
-            include-in-header: "`/Users/mhminai/.panzer/template/css/momento-pandoc.css`"
-        filter:
-            - run: addrefline.py
-            - run: pandoc-citeproc
-    docx:
+            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
         filter:
             - run: pandoc-citeproc
+
+BiblatexPdf:
+    latex:
         commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
+            biblatex: true
+        postflight:
+            - run: latexmk.py
 
 ApaStyle:
     all:
@@ -315,16 +289,12 @@ ApaStyle:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
 
 LodjStyle:
-    all:
-        metadata:
-            csl: "`/Users/mhminai/.panzer/template/csl/lodj.csl`"
-        filter:
-            - run: pandoc-citeproc
     latex:
         metadata:
             fontsize: 12pt
         commandline:
             latex-engine: "`xelatex`"
+            # biblatex does not use csl style files
             biblatex: true
         template: wp_memoir.latex
         preflight:
@@ -338,3 +308,5 @@ LodjStyle:
     docx:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
+        filter:
+            - run: pandoc-citeproc

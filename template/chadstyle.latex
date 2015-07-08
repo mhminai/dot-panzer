@@ -4,9 +4,9 @@
 
 
 $if(biblatex)$
-$if(bibliography)$
+$for(bibliography)$
 \addbibresource{$bibliography$}
-$endif$
+$endfor$
 $endif$
 
 $if(tables)$
@@ -59,11 +59,20 @@ $endif$
 \begin{titlepage}
 
 \title{$title$}
-\runningheads{$author.name$}{$if(shorttitle)$$shorttitle$$else$$author$$endif$}
+$if(author.name)$
+\runningheads{$author.name$}{$if(shorttitle)$$shorttitle$$else$$author.name$$endif$}
+$else$
+\runningheads{$author$}{$if(shorttitle)$$shorttitle$$else$$author$$endif$}
+$endif$
 
+
+$if(author.name)$
 \author{$for(author)$ \large \href{http://www.iiml.ac.in}{$author.name$},$sep$ \and $endfor$ $if(thanks)$ \thanks{$thanks$} $endif$\\ 
     {Indian Institute of Management, Lucknow}
    }
+$else$
+\author{\large \href{http://www.iiml.ac.in}{$author$} $if(thanks)$ \thanks{$thanks$} $endif$}
+$endif$
 
 \date{\small \today $if(version)$\ -- Version $version$ $endif$\\ {\it Preliminary}}
 \maketitle
@@ -72,9 +81,11 @@ $endif$
 %\clearpage
 %\vspace{-0.3in}
 
+$if(abstract)$
 \begin{abstract}
    $abstract$
 \end{abstract}
+$endif$
 
 \end{titlepage}
 \end{spacing}
