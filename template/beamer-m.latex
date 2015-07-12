@@ -1,4 +1,6 @@
-\documentclass[$if(fontsize)$$fontsize$,$endif$$if(handout)$handout,$endif$$if(beamer)$ignorenonframetext,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(handout)$handout,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+%ignorenonframetext does not work for my usage of beamer theme m
+%\documentclass[$if(fontsize)$$fontsize$,$endif$$if(handout)$handout,$endif$$if(beamer)$ignorenonframetext,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 $if(theme)$
 \usetheme[$for(themeoptions)$$themeoptions$$sep$,$endfor$]{$theme$}
 $endif$
@@ -18,7 +20,7 @@ $if(natbib)$
 \bibliographystyle{plainnat}
 $endif$
 $if(biblatex)$
-\usepackage[backend=biber,style=authoryear,isbn=false,url=false,doi=false]{biblatex}
+\usepackage[backend=biber,style=authoryear,autocite=footnote,isbn=false,url=false,doi=false]{biblatex}
 $for(biblio-files)$
 \addbibresource[datatype=bibtex]{$biblio-files$}
 $endfor$
@@ -58,7 +60,7 @@ $if(subtitle)$
 \subtitle{$subtitle$}
 $endif$
 $if(author)$
-\author{$for(author)$$author$$sep$ \and $endfor$}
+\author{$for(author)$$author$$sep$\\ \and $endfor$$if(tac)$\\ \emph{Thesis Advisory Committee:}\\$tac.chair$~\emph{(Chairperson)}\\$for(tac.member)$$tac.member$$sep$\\$endfor$$endif$}
 $endif$
 $if(date)$
 \date{$date$}
@@ -71,9 +73,8 @@ $else$
 \institute{Indian Institute of Management, Lucknow}
 $endif$
 
-\begin{document}
+\begin{document}%
 $if(title)$
-%\frame{\titlepage}
 \maketitle
 $endif$
 

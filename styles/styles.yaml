@@ -233,6 +233,21 @@ Work:
         cleanup:
             - run: tmp_back.py
             - run: rmlatex.py
+PropStyle:
+    latex:
+        metadata:
+            fontsize: 12pt
+        commandline:
+            latex-engine: "`xelatex`"
+            biblatex: true
+        template: mem_proposal.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        cleanup:
+            - run: tmp_back.py
+            - run: rmlatex.py
 
 ChadStyle:
     latex:
@@ -306,6 +321,8 @@ LodjStyle:
             - run: tmp_back.py
             - run: rmlatex.py
     docx:
+        metadata:
+            csl: "/Users/mhminai/.panzer/template/csl/lodj.csl"
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
         filter:
@@ -320,7 +337,7 @@ MthemePres:
             themeoptions:
                 - usetitleprogressbar
                 - noslidenumbers
-                - nooffset
+                - noframetitleoffset
         commandline:
             latex-engine: "`xelatex`"
             biblatex: true

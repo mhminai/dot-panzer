@@ -1,4 +1,4 @@
-\documentclass[a4paper, 12pt, article]{memoir}
+\documentclass[a4paper, oneside, 12pt, article]{memoir}
 %\documentclass[article]{memoir}
 \usepackage[american]{babel}
 \usepackage{libertine}
@@ -188,10 +188,11 @@ $if(toc)$
 $endif$
 
 $if(abstract)$
+\newpage
 \begin{abstract}
    $abstract$
 \end{abstract}
-
+\newpage
 $endif$
 
 $body$
