@@ -197,25 +197,24 @@ Letter:
         metadata:
             fontsize: 11pt
 
-########################################################################
-#                Plain, uses pandoc's default template                 #
-########################################################################
-
-Plain:
-    parent:
-        - Base
-    all:
-        template:
-        filter:
-            - run: name2auth.py
-    latex:
-        metadata:
-            geometry: a4paper
-
-
 #######################################################################
 #                    Work, style for working paper                    #
 #######################################################################
+
+Plain:
+    latex:
+        metadata:
+            #fontsize: 12pt
+            #fontfamily: libertine
+            #geometry: margin=1in
+        template: chadstyle.latex
+        preflight:
+            #- run: tmp_out.py
+        postflight:
+            #- run: latexmk.py
+        cleanup:
+            #- run: tmp_back.py
+            #- run: rmlatex.py
 
 Work:
     latex:
@@ -264,10 +263,17 @@ ChadStyle:
 
 PanCite:
     all:
-        commandline:
-            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
         filter:
             - run: pandoc-citeproc
+RefAOM:
+    all:
+        commandline:
+            csl: "`/Users/mhminai/.panzer/template/csl/aom.csl`"
+
+RefAPA:
+    all:
+        commandline:
+            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
 
 BiblatexPdf:
     latex:
@@ -277,11 +283,6 @@ BiblatexPdf:
             - run: latexmk.py
 
 ApaStyle:
-    all:
-        commandline:
-            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
-        metadata:
-            published: "*Draft only. Please do not cite without permission.*"
     latex:
         metadata:
             fontsize: 12pt
@@ -293,7 +294,6 @@ ApaStyle:
             - run: tmp_out.py
         postflight:
             - run: latexmk.py
-        #    - run: open_pdf.py
         cleanup:
             - run: tmp_back.py
             - run: rmlatex.py
