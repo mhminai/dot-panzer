@@ -204,17 +204,10 @@ Letter:
 Plain:
     latex:
         metadata:
-            #fontsize: 12pt
-            #fontfamily: libertine
-            #geometry: margin=1in
-        template: chadstyle.latex
-        preflight:
-            #- run: tmp_out.py
-        postflight:
-            #- run: latexmk.py
-        cleanup:
-            #- run: tmp_back.py
-            #- run: rmlatex.py
+            fontsize: 12pt
+            fontfamily: libertine
+            geometry: margin=1in
+        template: plain.latex
 
 Work:
     latex:
@@ -246,7 +239,6 @@ PropStyle:
             - run: latexmk.py
         cleanup:
             - run: tmp_back.py
-            - run: rmlatex.py
 
 ChadStyle:
     latex:

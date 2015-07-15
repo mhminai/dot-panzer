@@ -109,17 +109,21 @@ $endif$
 \makeatother
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 
-%\graphicspath{{./paper_example/}}
-
-\usepackage[unicode=true]{hyperref}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
 \hypersetup{breaklinks=true,
-            %bookmarks=true,
-            pdfauthor={},
-            pdftitle={},
+            bookmarks=true,
+            pdfauthor={$author-meta$},
+            pdftitle={$title-meta$},
             colorlinks=true,
-            citecolor=Maroon,
-            urlcolor=NavyBlue,
-            linkcolor=Magenta,
+            citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
+            urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
+            linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$,
             pdfborder={0 0 0}}
 \urlstyle{same}  % don't use monospace font for urls
 
