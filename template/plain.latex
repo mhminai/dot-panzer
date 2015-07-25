@@ -158,14 +158,24 @@ $endfor$
 
 \begin{document}
 $if(title)$
+$if(abstractonpage)$%If abstract is on its own page, we should not have the title page which gives author info etc.
+$else$
 \maketitle
 $endif$
+$endif$
 $if(abstract)$
+$if(abstractonpage)$
+\newpage
+\begin{center}\textbf{\MakeUppercase{$title$}}\end{center}\\
+$endif$
 \begin{abstract}
 $abstract$
 \end{abstract}
-$endif$
 \textbf{\itshape Keywords:~}$for(keywords)$$keywords$$sep$, $endfor$
+$if(abstractonpage)$
+\newpage
+$endif$
+$endif$
 
 $for(include-before)$
 $include-before$
