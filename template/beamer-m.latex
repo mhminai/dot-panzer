@@ -10,6 +10,12 @@ $endif$
 $if(fonttheme)$
 \usefonttheme{$fonttheme$}
 $endif$
+\usepackage{ifxetex,ifluatex}
+\ifxetex
+\setsansfont[BoldItalicFont={Fira Sans Italic},%
+             ItalicFont={Fira Sans Book Italic},%
+             BoldFont={Fira Sans}]{Fira Sans Book}
+\fi
 
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -60,7 +66,7 @@ $if(subtitle)$
 \subtitle{$subtitle$}
 $endif$
 $if(author)$
-\author{$for(author)$$author$$sep$\\ \and $endfor$$if(tac)$\\ \emph{Thesis Advisory Committee:}\\$tac.chair$~\emph{(Chairperson)}\\$for(tac.member)$$tac.member$$sep$\\$endfor$$endif$}
+\author{$for(author)$$author$$sep$\\ \and $endfor$$if(tac)$\\ \emph{Thesis Advisory Committee:}\\ --~$tac.chair$~\emph{(Chairperson)}\\$for(tac.member)$--~$tac.member$$sep$\\$endfor$$endif$}
 $endif$
 $if(date)$
 \date{$date$}

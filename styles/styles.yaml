@@ -206,8 +206,19 @@ Plain:
         metadata:
             fontsize: 12pt
             fontfamily: libertine
+            fontoption:
+                - semibold
             geometry: margin=1in
+            linestretch: 1.15
+            classoption:
+                - a4paper
         template: plain.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        cleanup:
+            - run: tmp_back.py
 
 Work:
     latex:
@@ -259,13 +270,13 @@ PanCite:
             - run: pandoc-citeproc
 RefAOM:
     all:
-        commandline:
-            csl: "`/Users/mhminai/.panzer/template/csl/aom.csl`"
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/aom.csl
 
 RefAPA:
     all:
-        commandline:
-            csl: "`/Users/mhminai/.panzer/template/csl/apa.csl`"
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/apa.csl
 
 BiblatexPdf:
     latex:
@@ -319,6 +330,27 @@ LodjStyle:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
         filter:
             - run: pandoc-citeproc
+
+AomjStyle:
+    all:
+        metadata:
+            csl: "/Users/mhminai/.panzer/template/csl/aomr.csl"
+        filter:
+            - run: pandoc-citeproc
+    latex:
+        metadata:
+            fontsize: 12pt
+            fontfamily: 
+                - newtxtext
+                - newtxmath
+            geometry: margin=1in
+            linestretch: 2
+            classoption:
+                - letterpaper
+        template: aomj.latex
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/aomj_styles.docx`"
 
 MthemePres:
     beamer:

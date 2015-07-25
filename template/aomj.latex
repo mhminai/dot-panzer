@@ -1,6 +1,6 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 $if(fontfamily)$
-\usepackage[$for(fontoption)$$fontoption$$sep$,$endfor$]{$fontfamily$}
+\usepackage[$for(fontoption)$$fontoption$$sep$,$endfor$]{$for(fontfamily)$$fontfamily$$sep$,$endfor$}
 $else$
 \usepackage{lmodern}
 $endif$
@@ -63,9 +63,9 @@ $if(natbib)$
 $endif$
 $if(biblatex)$
 \usepackage{biblatex}
-$for(bibliography)$
-\addbibresource{$bibliography$}
-$endfor$
+$if(biblio-files)$
+\bibliography{$biblio-files$}
+$endif$
 $endif$
 $if(listings)$
 \usepackage{listings}
@@ -133,15 +133,15 @@ $if(verbatim-in-note)$
 $endif$
 
 $if(title)$
-\title{$title$$if(subtitle)$\\ \vspace{-0.5em}{\small $subtitle$}$endif$}
+\title{\normalsize\MakeUppercase{$title$}}
 $endif$
 
 \author{
 $for(author)$
     $if(author.name)$
     \normalsize\MakeUppercase{$author.name$}\\
-    $for(author.address)$\small $author.address$\\$endfor$
-    {\footnotesize\itshape e-mail: $author.email$\\}
+    $for(author.address)$$author.address$\\$endfor$
+    {\itshape e-mail: $author.email$}
     $else$PLEASE GIVE STRUCTURED AUTHOR WITH ADDRESS ETC.
     $endif$$sep$\and
 $endfor$
@@ -149,37 +149,57 @@ $endfor$
 
 \date{$date$}
 
+\usepackage[nolists,noheads,tablesfirst]{endfloat}
+\DeclareDelayedFloatFlavour{longtable}{table}
+\renewcommand\floatplace[1]{%
+    \setstretch{1}
+    \begin{center}
+        \texttt{------------------------------------------------------------------------------}\\
+        \csname #1name\endcsname ~\csname thepost#1\endcsname\ about here.\\
+        \texttt{------------------------------------------------------------------------------}
+    \end{center}
+    \setstretch{$linestretch$}
+}
+\usepackage[obeyFinal,colorinlistoftodos,textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
+\presetkeys{todonotes}{inline, color=green!40}{}
+\pagestyle{myheadings}
+\usepackage{titlesec}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Roman{subsection}}
+\renewcommand\thesubsubsection{\Roman{subsubsection}}
+\titleformat{\section}[block]{\bfseries\centering}{\thesection.}{1em}{\MakeUppercase}
+\titleformat{\subsection}[block]{\bfseries}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}[runin]{\bfseries\itshape}{\thesubsubsection.}{1em}{}[.]
+\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
+\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
+
 $for(header-includes)$
 $header-includes$
 $endfor$
 
 \begin{document}
 $if(title)$
+\setstretch{1}
 \maketitle
+\setstretch{$linestretch$}
+\newpage
 $endif$
 $if(abstract)$
+\begin{center}
+\MakeUppercase{$title$}
+\end{center}
 \begin{abstract}
 $abstract$
 \end{abstract}
+\newpage
 $endif$
 
 $for(include-before)$
 $include-before$
 
 $endfor$
-$if(toc)$
-{
-\hypersetup{linkcolor=black}
-\setcounter{tocdepth}{$toc-depth$}
-\tableofcontents
-}
-$endif$
-$if(lot)$
-\listoftables
-$endif$
-$if(lof)$
-\listoffigures
-$endif$
+
 $body$
 
 $if(natbib)$
