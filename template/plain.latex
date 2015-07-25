@@ -162,6 +162,7 @@ $if(abstract)$
 $abstract$
 \end{abstract}
 $endif$
+\textbf{\itshape Keywords:~}$for(keywords)$$keywords$$sep$, $endfor$
 
 $for(include-before)$
 $include-before$
