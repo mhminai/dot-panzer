@@ -63,9 +63,9 @@ $if(natbib)$
 $endif$
 $if(biblatex)$
 \usepackage{biblatex}
-$if(biblio-files)$
-\bibliography{$biblio-files$}
-$endif$
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
 $endif$
 $if(listings)$
 \usepackage{listings}
@@ -83,6 +83,9 @@ $endif$
 $if(tables)$
 \usepackage{longtable,booktabs}
 $endif$
+\usepackage{pdflscape}
+\usepackage{dcolumn}
+\usepackage{booktabs}
 $if(graphics)$
 \usepackage{graphicx}
 \makeatletter
@@ -103,8 +106,8 @@ $endif$
 \fi
 \hypersetup{breaklinks=true,
             bookmarks=true,
-            pdfauthor={$author-meta$},
-            pdftitle={$title-meta$},
+            pdfauthor={},
+            pdftitle={},
             colorlinks=true,
             citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
             urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
@@ -133,33 +136,36 @@ $if(verbatim-in-note)$
 $endif$
 
 $if(title)$
-\title{\normalsize\MakeUppercase{$title$}}
+\title{\normalsize\MakeUppercase{$title$}$if(subtitle)$\\ \small $subtitle$ $endif$}
 $endif$
+
 
 \author{
 $for(author)$
     $if(author.name)$
     \normalsize\MakeUppercase{$author.name$}\\
-    $for(author.address)$$author.address$\\$endfor$
-    {\itshape e-mail: $author.email$}
+    $for(author.address)$\normalsize $author.address$\\$endfor$
+    {\small\itshape e-mail: $author.email$}
     $else$PLEASE GIVE STRUCTURED AUTHOR WITH ADDRESS ETC.
     $endif$$sep$\and
 $endfor$
 }
 
-\date{$date$}
+\date{\small $date$}
 
-\usepackage[nolists,noheads,tablesfirst]{endfloat}
-\DeclareDelayedFloatFlavour{longtable}{table}
-\renewcommand\floatplace[1]{%
-    \setstretch{1}
-    \begin{center}
-        \texttt{------------------------------------------------------------------------------}\\
-        \csname #1name\endcsname ~\csname thepost#1\endcsname\ about here.\\
-        \texttt{------------------------------------------------------------------------------}
-    \end{center}
-    \setstretch{$linestretch$}
-}
+%\usepackage[nolists,noheads,tablesfirst]{endfloat}
+%\DeclareDelayedFloatFlavour{longtable}{table}
+%\renewcommand\floatplace[1]{%
+%    \setstretch{1}
+%    \begin{center}
+%        \texttt{-----------------------------------------------------------------}\\
+%        \csname #1name\endcsname ~\csname thepost#1\endcsname\ about here.\\
+%        \texttt{-----------------------------------------------------------------}
+%    \end{center}
+%    \setstretch{$linestretch$}
+%}
+
+\usepackage[shortlabels]{enumitem}
 \usepackage[obeyFinal,colorinlistoftodos,textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
 \presetkeys{todonotes}{inline, color=green!40}{}
 \pagestyle{myheadings}
@@ -170,29 +176,42 @@ $endfor$
 \titleformat{\section}[block]{\bfseries\centering}{\thesection.}{1em}{\MakeUppercase}
 \titleformat{\subsection}[block]{\bfseries}{\thesubsection.}{1em}{}
 \titleformat{\subsubsection}[runin]{\bfseries\itshape}{\thesubsubsection.}{1em}{}[.]
-\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
-\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
-\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
+%\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
+%\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+%\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
 
 $for(header-includes)$
 $header-includes$
 $endfor$
 
 \begin{document}
+$if(picktitlepage)$
+\input{titlepage.tex}
+$else$
 $if(title)$
+$if(abstractonpage)$%If abstract is on its own page, we should not have the title page which gives author info etc.
+$else$
 \setstretch{1}
 \maketitle
 \setstretch{$linestretch$}
-\newpage
 $endif$
+$endif$
+$endif$
+
 $if(abstract)$
-\begin{center}
-\MakeUppercase{$title$}
-\end{center}
+$if(abstractonpage)$
+\newpage
+\vfill\begin{center}\MakeUppercase{$title$}\end{center}\vspace{1\baselineskip}
+$endif$
 \begin{abstract}
 $abstract$
 \end{abstract}
+$if(keywords)$
+\textbf{\itshape Keywords:~}$for(keywords)$$keywords$$sep$, $endfor$
+$endif$
+$if(abstractonpage)$
 \newpage
+$endif$
 $endif$
 
 $for(include-before)$

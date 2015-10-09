@@ -1,19 +1,27 @@
-\documentclass[a4paper, oneside, 12pt, article]{memoir}
+\documentclass[a4paper, oneside, 12pt, article]{memoir}monofont: Courier New
 %\documentclass[article]{memoir}
 \usepackage[american]{babel}
 \usepackage{libertine}
 
-%\setlrmarginsandblock{40mm}{25mm}{*}
-%\setlxvchars \setxlvchars[\small\sffamily]
-%\checkandfixthelayout
-%\fixpdflayout
+\setlrmarginsandblock{40mm}{25mm}{*}
+\setlxvchars \setxlvchars[\small\sffamily]
+\checkandfixthelayout
+\fixpdflayout
 
 \usepackage[final, babel=true]{microtype}
 \usepackage{amsmath} % amsmath which also loads fonts?
 
 \usepackage[svgnames,table]{xcolor}
+\usepackage[shortlabels]{enumitem}
 \usepackage[textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
 \usepackage{pdflscape}
+\usepackage{titlesec}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Roman{subsection}}
+\renewcommand\thesubsubsection{\Roman{subsubsection}}
+\titleformat{\section}[block]{\bfseries\centering}{\thesection.}{1em}{\MakeUppercase}
+\titleformat{\subsection}[block]{\bfseries}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}[runin]{\bfseries\itshape}{\thesubsubsection.}{1em}{}[.]
 
 \renewcommand{\and}{\, }
 \renewcommand*{\andnext}{%
@@ -129,16 +137,8 @@ $endif$
 
 \setcounter{secnumdepth}{0}
 
-%%\usepackage{tikz}
-%%\usetikzlibrary{calc}
-%%\usetikzlibrary{decorations.pathmorphing}
-
 \title{$title$}
 
-%%\author{$for(author)$\Large $author.name$ \\
-%%    \large\emph{$author.affiliation$} \vspace*{0.1in} \\
-%%    \normalsize\url{$author.email$}\vspace*{0.2in} \\
-%%    $sep$ \and $endfor$}
 $if(author.name)$
 \author{$for(author)$\Large $author.name$,$sep$ \and $endfor$ $if(thanks)$\thanks{$thanks$}$endif$}
 $else$
@@ -148,39 +148,13 @@ $endif$
 \date{\textsc{$date$}}
 
 
-\begin{document}  
-%\setkeys{Gin}{width=1\textwidth} 	
-\chapterstyle{article-4} 
-\maketitle
-%%\begin{titlingpage}
-%%\copypagestyle{titlingpage}{empty}
-%%\setlength{\droptitle}{-6\baselineskip}
-%%\maketitle
-%%\begin{tikzpicture} [overlay,remember picture]
-%%       \draw [line width=0.5mm ] 
-%%       % Using double $$ below as pandoc gets rid of one of them
-%%        ($$ (current page.north west) + (1.2cm, -1.2cm) $$)
-%%        rectangle
-%%        ($$ (current page.south east) + (-1.2cm, 1.2cm) $$);
-%%\end{tikzpicture}
-%%\vfill
-%%$if(title-image)$
-%%\begin{minipage}[c]{0.48\textwidth}
-%%    \begin{flushleft}
-%%        \includegraphics[width=2.5cm]{$title-image$}\\
-%%    \end{flushleft}
-%%\end{minipage}
-%%$endif$
-%%\begin{minipage}{0.48\textwidth}
-%%    \begin{flushright}
-%%        Indian Institute of Management \\
-%%        Prabandh Nagar \\
-%%        Lucknow (U.P.)  -- 226013\\
-%%        India \\
-%%    \end{flushright}
-%%\end{minipage}
-%%\end{titlingpage}
+\begin{document}
+\pagestyle{empty}
+\input{titlepage.tex}
 
+\chapterstyle{article-4} 
+\maketitle%
+%
 \pagestyle{mhm}
 
 $if(toc)$

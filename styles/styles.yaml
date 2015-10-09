@@ -206,12 +206,19 @@ Plain:
         metadata:
             fontsize: 12pt
             fontfamily: libertine
+            mainfont: Times New Roman
+            sansfont: Optima
+            monofont: Courier New
             fontoption:
                 - semibold
             geometry: margin=1in
             linestretch: 1.15
             classoption:
                 - a4paper
+        commandline:
+            default-image-extension: "`pdf`"
+            latex-engine: "`xelatex`"
+            biblatex: true
         template: plain.latex
         preflight:
             - run: tmp_out.py
@@ -331,10 +338,10 @@ LodjStyle:
         filter:
             - run: pandoc-citeproc
 
-AomjStyle:
+AomjStyle: # For aomj style do not use xelatex (nextx does not work with xelatex)
     all:
         metadata:
-            csl: "/Users/mhminai/.panzer/template/csl/aomr.csl"
+            csl: /Users/mhminai/.panzer/template/csl/aomr.csl
         filter:
             - run: pandoc-citeproc
     latex:
@@ -347,6 +354,8 @@ AomjStyle:
             linestretch: 2
             classoption:
                 - letterpaper
+        commandline:
+            default-image-extension: "`pdf`"
         template: aomj.latex
     docx:
         commandline:
@@ -372,3 +381,33 @@ MthemePres:
             - run: latexmk.py
         cleanup:
             - run: tmp_back.py
+
+LeadJouStyle: # (nextx does not work with xelatex)
+    all:
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/sage_harvard.csl
+        filter:
+            - run: pandoc-citeproc
+    latex:
+        metadata:
+            fontsize: 12pt
+            fontfamily: 
+                - newtxtext
+                - newtxmath
+            geometry: hmargin=3cm, vmargin=5cm
+            linestretch: 2
+            classoption:
+                - letterpaper
+        commandline:
+            default-image-extension: "`pdf`"
+        template: leadjou.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        cleanup:
+            - run: tmp_back.py
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/leadjou_styles.docx`"
+

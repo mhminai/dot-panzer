@@ -62,7 +62,7 @@ $if(natbib)$
 \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
 $endif$
 $if(biblatex)$
-\usepackage[url=false,style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
+\usepackage{biblatex}
 $for(bibliography)$
 \addbibresource{$bibliography$}
 $endfor$
@@ -81,8 +81,24 @@ $if(verbatim-in-note)$
 \VerbatimFootnotes
 $endif$
 $if(tables)$
-\usepackage{longtable,booktabs}
+    \usepackage{longtable}
+    \usepackage{booktabs}
+    \usepackage{threeparttable}
+    \usepackage{dcolumn}
+    \DeclareMathVersion{nxbold}
+    \SetSymbolFont{operators}{nxbold}{OT1}{cmr} {b}{n}
+    \SetSymbolFont{letters}  {nxbold}{OML}{cmm} {b}{it}
+    \SetSymbolFont{symbols}  {nxbold}{OMS}{cmsy}{b}{n}
+    \newcolumntype{d}[1]{D{.}{\cdot}{#1}}
+    \newcolumntype{.}{D{.}{\cdot}{2}}
+    \makeatletter
+    \newcolumntype{B}{>{\boldmath\DC@{.}{\cdot}{2}}c<{\DC@end}}
+    \newcolumntype{Z}{>{\mathversion{nxbold}\DC@{.}{\cdot}{2}}c<{\DC@end}}
+    \makeatother
 $endif$
+\usepackage{pdflscape}
+\usepackage{dcolumn}
+\usepackage{booktabs}
 $if(graphics)$
 \usepackage{graphicx}
 \makeatletter
@@ -103,8 +119,8 @@ $endif$
 \fi
 \hypersetup{breaklinks=true,
             bookmarks=true,
-            pdfauthor={$author-meta$},
-            pdftitle={$title-meta$},
+            pdfauthor={},
+            pdftitle={},
             colorlinks=true,
             citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
             urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
@@ -133,43 +149,81 @@ $if(verbatim-in-note)$
 $endif$
 
 $if(title)$
-\title{$title$$if(subtitle)$\\ \vspace{-0.5em}{\small $subtitle$}$endif$}
+\title{\normalsize\MakeUppercase{$title$}$if(subtitle)$\\ \small $subtitle$ $endif$}
 $endif$
+
 
 \author{
 $for(author)$
     $if(author.name)$
-    \normalsize\MakeUppercase{$author.name$}\\ $if(author.address)$\small $author.address$\\$endif$ $if(author.email)${\footnotesize\itshape e-mail: $author.email$\\}$endif$
+    \normalsize\MakeUppercase{$author.name$}\\
+    $for(author.address)$\normalsize $author.address$\\$endfor$
+    {\small\itshape e-mail: $author.email$}
     $else$PLEASE GIVE STRUCTURED AUTHOR WITH ADDRESS ETC.
     $endif$$sep$\and
 $endfor$
 }
 
-\date{$date$}
+\date{\small $date$}
 
+$if(endfloat)$
+\usepackage[nolists,noheads,tablesfirst]{endfloat}
+\DeclareDelayedFloatFlavour{longtable}{table}
+\renewcommand\floatplace[1]{%
+    \setstretch{1}
+    \begin{center}
+        \texttt{-----------------------------------------------------------------}\\
+        \csname #1name\endcsname ~\csname thepost#1\endcsname\ about here.\\
+        \texttt{-----------------------------------------------------------------}
+    \end{center}
+    \setstretch{$linestretch$}
+}
+$endif$
+
+\usepackage[shortlabels]{enumitem}
 \usepackage[obeyFinal,colorinlistoftodos,textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
 \presetkeys{todonotes}{inline, color=green!40}{}
+\pagestyle{myheadings}
+\usepackage{titlesec}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Roman{subsection}}
+\renewcommand\thesubsubsection{\Roman{subsubsection}}
+\titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}[block]{\itshape}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}[runin]{\itshape}{\thesubsubsection.}{1em}{}[.]
+%\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
+%\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+%\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
 
 $for(header-includes)$
 $header-includes$
 $endfor$
 
 \begin{document}
-$if(title)$
-$if(abstractonpage)$%If abstract is on its own page, we should not have the title page which gives author info etc.
+$if(picktitlepage)$
+\input{titlepage.tex}
 $else$
-\maketitle%
+$if(title)$
+$if(titlepage)$%If titlepage is TRUE, create separate title page else do not
+\setstretch{1}
+\maketitle
+\setstretch{$linestretch$}
+$else$
 $endif$
 $endif$
+$endif$
+
 $if(abstract)$
 $if(abstractonpage)$
 \newpage
-\begin{center}\textbf{\MakeUppercase{$title$}}\end{center}\\
+\vfill\begin{center}\MakeUppercase{$title$}\end{center}\vspace{1\baselineskip}
 $endif$
 \begin{abstract}
 $abstract$
 \end{abstract}
+$if(keywords)$
 \textbf{\itshape Keywords:~}$for(keywords)$$keywords$$sep$, $endfor$
+$endif$
 $if(abstractonpage)$
 \newpage
 $endif$
@@ -179,19 +233,7 @@ $for(include-before)$
 $include-before$
 
 $endfor$
-$if(toc)$
-{
-\hypersetup{linkcolor=black}
-\setcounter{tocdepth}{$toc-depth$}
-\tableofcontents
-}
-$endif$
-$if(lot)$
-\listoftables
-$endif$
-$if(lof)$
-\listoffigures
-$endif$
+
 $body$
 
 $if(natbib)$
