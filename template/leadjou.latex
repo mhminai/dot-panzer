@@ -95,6 +95,9 @@ $if(tables)$
     \newcolumntype{B}{>{\boldmath\DC@{.}{\cdot}{2}}c<{\DC@end}}
     \newcolumntype{Z}{>{\mathversion{nxbold}\DC@{.}{\cdot}{2}}c<{\DC@end}}
     \makeatother
+\newenvironment{ltable}
+  {\newgeometry{margin=1in}\begin{landscape}\thispagestyle{plain}\begin{table}}
+  {\end{table}\end{landscape}\restoregeometry}
 $endif$
 \usepackage{pdflscape}
 \usepackage{dcolumn}
@@ -167,8 +170,12 @@ $endfor$
 \date{\small $date$}
 
 $if(endfloat)$
-\usepackage[nolists,noheads,tablesfirst]{endfloat}
+\usepackage[nolists,tablesfirst]{endfloat}
+% new environment for landscape tables
+\DeclareDelayedFloatFlavor{ltable}{table}
 \DeclareDelayedFloatFlavour{longtable}{table}
+%\AtBeginTables{\pagestyle{plain}}
+%\AtBeginFigures{\pagestyle{plain}}
 \renewcommand\floatplace[1]{%
     \setstretch{1}
     \begin{center}
