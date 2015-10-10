@@ -208,13 +208,19 @@ $endfor$
 
 \begin{document}
 $if(picktitlepage)$
+\thispagestyle{empty}
 \input{titlepage.tex}
 $else$
 $if(title)$
-$if(titlepage)$%If titlepage is TRUE, create separate title page else do not
 \setstretch{1}
 \maketitle
 \setstretch{$linestretch$}
+$if(titlepage)$%If titlepage is TRUE, create separate title page else do not
+\thispagestyle{empty}
+\pagenumbering{Alph}
+\pagenumbering{gobble}
+\newpage
+\pagenumbering{arabic}
 $else$
 $endif$
 $endif$
