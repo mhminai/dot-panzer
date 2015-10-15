@@ -30,6 +30,9 @@ $if(biblatex)$
 $for(biblio-files)$
 \addbibresource[datatype=bibtex]{$biblio-files$}
 $endfor$
+$for(bibliography)$
+\addbibresource[datatype=bibtex]{$bibliography$}
+$endfor$
 $endif$
 
 $if(tables)$
