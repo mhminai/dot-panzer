@@ -62,7 +62,7 @@ $if(natbib)$
 \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
 $endif$
 $if(biblatex)$
-\usepackage[url=false,style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
+\usepackage[style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
 $for(bibliography)$
 \addbibresource{$bibliography$}
 $endfor$
@@ -81,8 +81,25 @@ $if(verbatim-in-note)$
 \VerbatimFootnotes
 $endif$
 $if(tables)$
-\usepackage{longtable,booktabs}
+    \usepackage{longtable}
+    \usepackage{booktabs}
+    \usepackage{threeparttable}
+    \usepackage{dcolumn}
+    \DeclareMathVersion{nxbold}
+    \SetSymbolFont{operators}{nxbold}{OT1}{cmr} {b}{n}
+    \SetSymbolFont{letters}  {nxbold}{OML}{cmm} {b}{it}
+    \SetSymbolFont{symbols}  {nxbold}{OMS}{cmsy}{b}{n}
+    \newcolumntype{d}[1]{D{.}{\cdot}{#1}}
+    \newcolumntype{.}{D{.}{\cdot}{2}}
+    \makeatletter
+    \newcolumntype{B}{>{\boldmath\DC@{.}{\cdot}{2}}c<{\DC@end}}
+    \newcolumntype{Z}{>{\mathversion{nxbold}\DC@{.}{\cdot}{2}}c<{\DC@end}}
+    \makeatother
+\newenvironment{ltable}
+  {\newgeometry{margin=1in}\begin{landscape}\thispagestyle{plain}\begin{table}}
+  {\end{table}\end{landscape}\restoregeometry}
 $endif$
+\usepackage{pdflscape}
 $if(graphics)$
 \usepackage{graphicx}
 \makeatletter
@@ -133,20 +150,42 @@ $if(verbatim-in-note)$
 $endif$
 
 $if(title)$
-\title{$title$$if(subtitle)$\\ \vspace{-0.5em}{\small $subtitle$}$endif$}
+\title{$title$$if(subtitle)$\\ \small $subtitle$$endif$}
 $endif$
+
 
 \author{
 $for(author)$
     $if(author.name)$
-    \normalsize\MakeUppercase{$author.name$}\\ $if(author.address)$\small $author.address$\\$endif$ $if(author.email)${\footnotesize\itshape e-mail: $author.email$\\}$endif$
+    \normalsize\MakeUppercase{$author.name$}\\
+    $for(author.address)$\normalsize $author.address$\\$endfor$
+    {\small\itshape e-mail: $author.email$}
     $else$PLEASE GIVE STRUCTURED AUTHOR WITH ADDRESS ETC.
     $endif$$sep$\and
 $endfor$
 }
 
-\date{$date$}
+\date{\small $date$}
 
+$if(endfloat)$
+\usepackage[nolists,tablesfirst]{endfloat}
+% new environment for landscape tables
+\DeclareDelayedFloatFlavor{ltable}{table}
+\DeclareDelayedFloatFlavour{longtable}{table}
+%\AtBeginTables{\pagestyle{plain}}
+%\AtBeginFigures{\pagestyle{plain}}
+\renewcommand\floatplace[1]{%
+    \setstretch{1}
+    \begin{center}
+        \texttt{-----------------------------------------------------------------}\\
+        \csname #1name\endcsname ~\csname thepost#1\endcsname\ about here.\\
+        \texttt{-----------------------------------------------------------------}
+    \end{center}
+    \setstretch{$linestretch$}
+}
+$endif$
+
+\usepackage[shortlabels]{enumitem}
 \usepackage[obeyFinal,colorinlistoftodos,textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
 \presetkeys{todonotes}{inline, color=green!40}{}
 
@@ -155,12 +194,25 @@ $header-includes$
 $endfor$
 
 \begin{document}
-$if(title)$
-$if(abstractonpage)$%If abstract is on its own page, we should not have the title page which gives author info etc.
+$if(picktitlepage)$
+\thispagestyle{empty}
+\input{titlepage.tex}
 $else$
-\maketitle%
+$if(title)$
+\setstretch{1}
+\maketitle
+\setstretch{$linestretch$}
+$if(titlepage)$%If titlepage is TRUE, create separate title page else do not
+\thispagestyle{empty}
+\pagenumbering{Alph}
+\pagenumbering{gobble}
+\newpage
+\pagenumbering{arabic}
+$else$
 $endif$
 $endif$
+$endif$
+
 $if(abstract)$
 $if(abstractonpage)$
 \newpage
@@ -169,7 +221,9 @@ $endif$
 \begin{abstract}
 $abstract$
 \end{abstract}
+$if(keywords)$
 \textbf{\itshape Keywords:~}$for(keywords)$$keywords$$sep$, $endfor$
+$endif$
 $if(abstractonpage)$
 \newpage
 $endif$
