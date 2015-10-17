@@ -100,8 +100,6 @@ $if(tables)$
   {\end{table}\end{landscape}\restoregeometry}
 $endif$
 \usepackage{pdflscape}
-\usepackage{dcolumn}
-\usepackage{booktabs}
 $if(graphics)$
 \usepackage{graphicx}
 \makeatletter
