@@ -81,7 +81,23 @@ $if(verbatim-in-note)$
 \VerbatimFootnotes
 $endif$
 $if(tables)$
-\usepackage{longtable,booktabs}
+    \usepackage{longtable}
+    \usepackage{booktabs}
+    \usepackage{threeparttable}
+    \usepackage{dcolumn}
+    \DeclareMathVersion{nxbold}
+    \SetSymbolFont{operators}{nxbold}{OT1}{cmr} {b}{n}
+    \SetSymbolFont{letters}  {nxbold}{OML}{cmm} {b}{it}
+    \SetSymbolFont{symbols}  {nxbold}{OMS}{cmsy}{b}{n}
+    \newcolumntype{d}[1]{D{.}{\cdot}{#1}}
+    \newcolumntype{.}{D{.}{\cdot}{2}}
+    \makeatletter
+    \newcolumntype{B}{>{\boldmath\DC@{.}{\cdot}{2}}c<{\DC@end}}
+    \newcolumntype{Z}{>{\mathversion{nxbold}\DC@{.}{\cdot}{2}}c<{\DC@end}}
+    \makeatother
+\newenvironment{ltable}
+  {\newgeometry{margin=1in}\begin{landscape}\thispagestyle{plain}\begin{table}}
+  {\end{table}\end{landscape}\restoregeometry}
 $endif$
 \usepackage{pdflscape}
 \usepackage{dcolumn}
@@ -123,7 +139,7 @@ $if(strikeout)$
 % avoid problems with \sout in headers with hyperref:
 \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 $endif$
-\setlength{\parindent}{0.2in}
+\setlength{\parindent}{0.3in}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 $if(numbersections)$
@@ -153,17 +169,23 @@ $endfor$
 
 \date{\small $date$}
 
-%\usepackage[nolists,noheads,tablesfirst]{endfloat}
-%\DeclareDelayedFloatFlavour{longtable}{table}
-%\renewcommand\floatplace[1]{%
-%    \setstretch{1}
-%    \begin{center}
-%        \texttt{-----------------------------------------------------------------}\\
-%        \csname #1name\endcsname ~\csname thepost#1\endcsname\ about here.\\
-%        \texttt{-----------------------------------------------------------------}
-%    \end{center}
-%    \setstretch{$linestretch$}
-%}
+$if(endfloat)$
+\usepackage[nolists,tablesfirst]{endfloat}
+% new environment for landscape tables
+\DeclareDelayedFloatFlavor{ltable}{table}
+\DeclareDelayedFloatFlavour{longtable}{table}
+%\AtBeginTables{\pagestyle{plain}}
+%\AtBeginFigures{\pagestyle{plain}}
+\renewcommand\floatplace[1]{%
+    \setstretch{1}
+    \begin{center}
+        \texttt{-----------------------------------------------------------------}\\
+        \csname #1name\endcsname ~\csname thepost#1\endcsname\ about here.\\
+        \texttt{-----------------------------------------------------------------}
+    \end{center}
+    \setstretch{$linestretch$}
+}
+$endif$
 
 \usepackage[shortlabels]{enumitem}
 \usepackage[obeyFinal,colorinlistoftodos,textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
@@ -176,9 +198,9 @@ $endfor$
 \titleformat{\section}[block]{\bfseries\centering}{\thesection.}{1em}{\MakeUppercase}
 \titleformat{\subsection}[block]{\bfseries}{\thesubsection.}{1em}{}
 \titleformat{\subsubsection}[runin]{\bfseries\itshape}{\thesubsubsection.}{1em}{}[.]
-%\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
-%\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
-%\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
+\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
+\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
 
 $for(header-includes)$
 $header-includes$
@@ -189,11 +211,16 @@ $if(picktitlepage)$
 \input{titlepage.tex}
 $else$
 $if(title)$
-$if(abstractonpage)$%If abstract is on its own page, we should not have the title page which gives author info etc.
-$else$
 \setstretch{1}
 \maketitle
 \setstretch{$linestretch$}
+$if(titlepage)$%If titlepage is TRUE, create separate title page else do not
+\thispagestyle{empty}
+\pagenumbering{Alph}
+\pagenumbering{gobble}
+\newpage
+\pagenumbering{arabic}
+$else$
 $endif$
 $endif$
 $endif$
