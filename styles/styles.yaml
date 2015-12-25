@@ -321,7 +321,9 @@ AomjStyle: # For aomj style do not use xelatex (nextx does not work with xelatex
             linestretch: 2
             classoption:
                 - letterpaper
-            endfloat: true
+            endfloat: TRUE
+            titlepage: TRUE
+            abstractonpage: TRUE
         commandline:
             default-image-extension: "`pdf`"
         template: aomj.latex
@@ -351,7 +353,7 @@ MthemePres:
         cleanup:
             - run: tmp_back.py
 
-LeadJouStyle: # (nextx does not work with xelatex)
+LeadJouStyle: # (newtx does not work with xelatex)
     all:
         metadata:
             csl: /Users/mhminai/.panzer/template/csl/sage_harvard.csl
@@ -383,25 +385,82 @@ LeadJouStyle: # (nextx does not work with xelatex)
 Story:
     latex:
         metadata:
-            fontsize: 12pt
-            mainfont: Times New Roman
+            fontsize: 11pt
+            mainfont: "Hoefler Text"
             sansfont: Optima
             monofont: Courier New
-            fontoption:
-                - semibold
+            #fontoption:
+            #    - semibold
             geometry: margin=1in
-            linestretch: 1.15
+            linestretch: 1.25
             classoption:
                 - a4paper
         commandline:
             default-image-extension: "`pdf`"
             latex-engine: "`xelatex`"
-            biblatex: true
-        template: plain.latex
+            biblatex: false
+        template: story.latex
         preflight:
             - run: tmp_out.py
         postflight:
             - run: latexmk.py
         cleanup:
             - run: tmp_back.py
+
+ReferJournals:
+    all:
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/alpha_references.csl
+        filter:
+            - run: pandoc-citeproc
+    latex:
+        metadata:
+            fontsize: 12pt
+            fontfamily: 
+                - newtxtext
+                - newtxmath
+                - libertine
+            geometry: hmargin=1in, vmargin=1in
+            linestretch: 1.15
+            classoption:
+                - letterpaper
+        commandline:
+            default-image-extension: "`pdf`"
+        template: leadjou.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        cleanup:
+            - run: tmp_back.py
+
+JlosStyle:
+    all:
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
+        filter:
+            - run: pandoc-citeproc
+    latex:
+        metadata:
+            fontsize: 12pt
+            fontfamily:
+                - newtxtext
+                - newtxmath
+            geometry: margin=1in
+            linestretch: 2
+            classoption:
+                - letterpaper
+            endfloat: true
+        commandline:
+            default-image-extension: "`pdf`"
+        template: jlos.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        cleanup:
+            - run: tmp_back.py
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
 

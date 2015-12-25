@@ -69,7 +69,7 @@ $if(subtitle)$
 \subtitle{$subtitle$}
 $endif$
 $if(author)$
-\author{$for(author)$$author$$sep$\\ \and $endfor$$if(tac)$\\ \emph{Thesis Advisory Committee:}\\ --~$tac.chair$~\emph{(Chairperson)}\\$for(tac.member)$--~$tac.member$$sep$\\$endfor$$endif$}
+\author{$for(author)$$author$$sep$\\ \and $endfor$}
 $endif$
 $if(date)$
 \date{$date$}
