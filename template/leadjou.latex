@@ -154,16 +154,7 @@ $if(title)$
 $endif$
 
 
-\author{
-$for(author)$
-    $if(author.name)$
-    \normalsize\MakeUppercase{$author.name$}\\
-    $for(author.address)$\normalsize $author.address$\\$endfor$
-    {\small\itshape e-mail: $author.email$}
-    $else$PLEASE GIVE STRUCTURED AUTHOR WITH ADDRESS ETC.
-    $endif$$sep$\and
-$endfor$
-}
+\author{ $for(author)$ $if(author.name)$\normalsize $author.name$\\$endif$ $if(author.address)$\normalsize $author.address$\\$endif$ $if(author.email)$\small\itshape e-mail: $author.email$$endif$ $sep$\and $endfor$ }%
 
 \date{\small $date$}
 

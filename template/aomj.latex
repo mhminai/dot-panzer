@@ -151,21 +151,16 @@ $if(verbatim-in-note)$
 \VerbatimFootnotes % allows verbatim text in footnotes
 $endif$
 
+$if(nojustify)$
+\usepackage[document]{ragged2e}
+$endif$
+
 $if(title)$
 \title{\normalsize\MakeUppercase{$title$}$if(subtitle)$\\ \small $subtitle$ $endif$}
 $endif$
 
 
-\author{
-$for(author)$
-    $if(author.name)$
-    \normalsize\MakeUppercase{$author.name$}\\
-    $for(author.address)$\normalsize $author.address$\\$endfor$
-    {\small\itshape e-mail: $author.email$}
-    $else$PLEASE GIVE STRUCTURED AUTHOR WITH ADDRESS ETC.
-    $endif$$sep$\and
-$endfor$
-}
+\author{ $for(author)$ $if(author.name)$\normalsize $author.name$\\$endif$ $if(author.address)$\normalsize $author.address$\\$endif$ $if(author.email)$\small\itshape e-mail: $author.email$$endif$ $sep$\and $endfor$ }%
 
 \date{\small $date$}
 
@@ -201,6 +196,12 @@ $endif$
 \titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
 \titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
 \titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
+
+$if(abstract)$
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\normalsize\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont\normalsize}
+$endif$
 
 $for(header-includes)$
 $header-includes$

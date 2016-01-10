@@ -110,22 +110,6 @@ AddLatexRefs:
 #                                Notes                                 #
 ########################################################################
 
-Notes:
-    parent:
-        - Base
-    latex:
-        template: notes.latex
-        metadata:
-            fontsize: 11pt
-            vert-whitespace: true   # looser vertical spacing
-            horiz-whitespace: false # wider horizontal margins
-            tabbing-digits: false   # fixed-size digits
-            sans-style: false       # sans serif style
-    html:
-        template: article.html
-        metadata:
-            css: "/Users/msprevak/.panzer/template/css/topi.css"
-
 NotesSans:
     parent:
         - Notes
@@ -228,16 +212,15 @@ Plain:
 Work:
     latex:
         metadata:
-            fontsize: 12pt
+            fontsize: 11pt
+            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
         commandline:
             latex-engine: "`xelatex`"
-            biblatex: true
         template: wp_memoir.latex
         preflight:
             - run: tmp_out.py
         postflight:
             - run: latexmk.py
-            #- run: open_pdf.py
         cleanup:
             - run: tmp_back.py
             - run: rmlatex.py
@@ -464,3 +447,11 @@ JlosStyle:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
 
+Notes:
+    latex:
+        metadata:
+            fontsize: 11pt
+            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
+        commandline:
+            latex-engine: "`xelatex`"
+        template: notes.latex
