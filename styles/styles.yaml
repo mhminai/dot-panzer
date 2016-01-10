@@ -265,6 +265,11 @@ RefAPA:
         metadata:
             csl: /Users/mhminai/.panzer/template/csl/apa.csl
 
+RefAPA_nodoi:
+    all:
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
+
 BiblatexPdf:
     latex:
         commandline:
