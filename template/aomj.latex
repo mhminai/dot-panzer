@@ -229,7 +229,7 @@ $endif$
 $if(abstract)$
 $if(abstractonpage)$
 \newpage
-\vfill\begin{center}\MakeUppercase{$title$}\end{center}\vspace{1\baselineskip}
+\vfill\begin{center}$title$\end{center}\vspace{1\baselineskip}
 $endif$
 \begin{abstract}
 $abstract$
