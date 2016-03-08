@@ -460,3 +460,33 @@ Notes:
         commandline:
             latex-engine: "`xelatex`"
         template: notes.latex
+
+Book:
+    latex:
+        metadata:
+            documentclass: memoir
+            fontsize: 12pt
+            mainfont: "Hoefler Text"
+            #sansfont: Optima
+            #monofont: Courier New
+            #endfloat: FALSE
+            #titlepage: TRUE
+            #fontoption:
+            #    - semibold
+            #geometry: margin=1in
+            #linestretch: 1.25
+            classoption:
+                - mediumvopaper
+                - openleft
+        commandline:
+            default-image-extension: "`pdf`"
+            latex-engine: "`xelatex`"
+            biblatex: false
+        template: book.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        cleanup:
+            - run: tmp_back.py
+
