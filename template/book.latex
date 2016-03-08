@@ -187,7 +187,7 @@ $header-includes$
 $endfor$
 
 \begin{document}
-\chapterstyle{bringhurst}
+\chapterstyle{dash}
 $if(picktitlepage)$
 \thispagestyle{empty}
 \input{titlepage.tex}
@@ -232,6 +232,7 @@ $include-before$
 
 $endfor$
 \pagestyle{simple}
+\raggedbottom
 $if(toc)$
 {
 \hypersetup{linkcolor=black}
