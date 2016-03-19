@@ -302,7 +302,7 @@ AomjStyle: # For aomj style do not use xelatex (nextx does not work with xelatex
     latex:
         metadata:
             fontsize: 12pt
-            fontfamily: 
+            fontfamily:
                 - newtxtext
                 - newtxmath
             geometry: margin=1in
