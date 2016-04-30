@@ -14,6 +14,10 @@ $endif$
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
+  \newcommand{\getAlpha}{\ensuremath{\alpha}}
+  \newcommand{\getBeta}{\ensuremath{\beta}}
+  \DeclareUnicodeCharacter{3B1}{\getAlpha}
+  \DeclareUnicodeCharacter{3B2}{\getBeta}
 $if(euro)$
   \usepackage{eurosym}
 $endif$
@@ -193,11 +197,22 @@ $endif$
 \titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
 \titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
 
+$if(abstract)$
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\normalsize\bfseries\MakeUppercase}
+\renewcommand{\abstracttextfont}{\normalfont\normalsize}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\setlength{\absparindent}{\parindent}
+$endif$
+
 $for(header-includes)$
 $header-includes$
 $endfor$
 
 \begin{document}
+$if(notitlepage)$
+$else$
 $if(picktitlepage)$
 \input{titlepage.tex}
 $else$
@@ -212,6 +227,7 @@ $if(titlepage)$%If titlepage is TRUE, create separate title page else do not
 \newpage
 \pagenumbering{arabic}
 $else$
+$endif$
 $endif$
 $endif$
 $endif$

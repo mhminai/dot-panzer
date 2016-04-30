@@ -224,6 +224,7 @@ Work:
         cleanup:
             - run: tmp_back.py
             - run: rmlatex.py
+
 PropStyle:
     latex:
         metadata:
@@ -285,13 +286,29 @@ ApaStyle:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
 
 LodjStyle:
-    docx:
+    all:
         metadata:
             csl: "/Users/mhminai/.panzer/template/csl/lodj.csl"
-        commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
         filter:
             - run: pandoc-citeproc
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
+            default-image-extension: "`png`"
+    latex:
+        metadata:
+            fontsize: 12pt
+            fontfamily: libertine
+            geometry: margin=1in
+            linestretch: 1.85
+            classoption:
+                - letterpaper
+            endflot: TRUE
+            titlepage: TRUE
+            abstractonpage: TRUE
+        commandline:
+            default-image-extension: "`pdf`"
+        template: lodj.latex
 
 AomjStyle: # For aomj style do not use xelatex (nextx does not work with xelatex)
     all:
@@ -318,6 +335,7 @@ AomjStyle: # For aomj style do not use xelatex (nextx does not work with xelatex
     docx:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/aomj_styles.docx`"
+            default-image-extension: "`png`"
 
 MthemePres:
     beamer:
@@ -414,7 +432,7 @@ ReferJournals:
                 - letterpaper
         commandline:
             default-image-extension: "`pdf`"
-        template: leadjou.latex
+        template: referjournals.latex
         preflight:
             - run: tmp_out.py
         postflight:
@@ -491,3 +509,29 @@ Book:
         #cleanup:
         #    - run: tmp_back.py
 
+AamjStyle:
+    all:
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
+        filter:
+            - run: pandoc-citeproc
+    latex:
+        metadata:
+            fontsize: 12pt
+            fontfamily:
+                - newtxtext
+                - newtxmath
+            geometry: margin=1in
+            linestretch: 2
+            classoption:
+                - letterpaper
+            endfloat: TRUE
+            titlepage: TRUE
+            abstractonpage: TRUE
+        commandline:
+            default-image-extension: "`pdf`"
+        template: aamj.latex
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
+            default-image-extension: "`png`"

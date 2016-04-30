@@ -66,6 +66,7 @@ $if(natbib)$
 \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
 $endif$
 $if(biblatex)$
+\usepackage[backref=true,backend=biber,isbn=false,url=false,doi=false]{biblatex}
 \usepackage{biblatex}
 $for(bibliography)$
 \addbibresource{$bibliography$}

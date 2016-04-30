@@ -1,4 +1,4 @@
-\documentclass[a4paper, oneside, 12pt, article]{memoir}monofont: Courier New
+\documentclass[a4paper, oneside, 12pt, article]{memoir}
 %\documentclass[article]{memoir}
 \usepackage[american]{babel}
 \usepackage{libertine}
@@ -37,7 +37,8 @@
   \renewcommand{\printchaptername}{} 
   \renewcommand{\chapternamenum}{} 
   \renewcommand{\chapnumfont}{\chaptitlefont} 
-  \renewcommand{\printchapternum}{\chapnumfont \thechapter\space} 
+  %\renewcommand{\printchapternum}{\chapnumfont \thechapter\space} 
+  \renewcommand{\printchapternum}{} 
   \renewcommand{\afterchapternum}{} 
   \renewcommand{\printchaptername}{\secheadstyle}
   \renewcommand{\cftchapterfont}{\normalfont} 
@@ -85,12 +86,13 @@
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \usepackage{csquotes}
 
-\usepackage[url=false,style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
+%\usepackage[backref=true,url=false,style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
+\usepackage[backref=true,backend=biber,isbn=false,url=false,doi=false]{biblatex}
 \DeclareLanguageMapping{american}{american-apa}
 
-$if(bibliography)$
+$for(bibliography)$
 \addbibresource{$bibliography$}
-$endif$
+$endfor$
 
 $if(tables)$
     \usepackage{longtable}
@@ -139,18 +141,15 @@ $endif$
 
 \title{$title$}
 
-$if(author.name)$
-\author{$for(author)$\Large $author.name$,$sep$ \and $endfor$ $if(thanks)$\thanks{$thanks$}$endif$}
-$else$
-\author{\Large $author$ $if(thanks)$\thanks{$thanks$}$endif$}
-$endif$
+\author{\Large $author.name$ $if(thanks)$\thanks{$thanks$}$endif$}
 
 \date{\textsc{$date$}}
 
 
 \begin{document}
-\pagestyle{empty}
+$if(picktitlepage)$
 \input{titlepage.tex}
+$endif$
 
 \chapterstyle{article-4} 
 \maketitle%
@@ -175,12 +174,11 @@ $body$
 
 \newpage
 $if(biblatex)$
-\printbibliography$if(biblio-title)$[title=References]
+\printbibliography$if(biblio-title)$[title=References]$endif$
 $endif$
 
 %%\listoftodos
 
-$endif$
 $for(include-after)$
 $include-after$
 
