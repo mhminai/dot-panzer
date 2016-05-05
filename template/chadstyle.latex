@@ -70,6 +70,8 @@ $endif$
 \newcommand{\Proof}[2]{\newline {\hspace{-\parindent} {\color{ChadGreen}\bf Proof of Proposition}~\ref{#1}.}
 {\color{ChadBlue} #2} \vspace{.1in}}
 
+\newcommand{\tightlist}{%
+  \setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
 % If you've loaded *tweaklist.sty* above, uncomment these lines:
 % Adjust spacing in itemize/enumerate; see tweaklist.sty
 %\renewcommand{\enumhook}{\setlength{\topsep}{2pt}%
