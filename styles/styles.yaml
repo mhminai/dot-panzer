@@ -535,3 +535,32 @@ AamjStyle:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
             default-image-extension: "`png`"
+
+CIM: # For aomj style do not use xelatex (nextx does not work with xelatex)
+    all:
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/cim.csl
+        filter:
+            - run: pandoc-citeproc
+    latex:
+        metadata:
+            fontsize: 12pt
+            fontfamily:
+                - newtxtext
+                - newtxmath
+            geometry: margin=1in
+            linestretch: 1.65
+            classoption:
+                - a4paper
+            endfloat: TRUE
+            titlepage: TRUE
+            abstractonpage: TRUE
+        commandline:
+            default-image-extension: "`pdf`"
+        template: aomj.latex
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/aomj_styles.docx`"
+            default-image-extension: "`png`"
+
+
