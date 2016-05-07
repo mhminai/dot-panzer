@@ -10,6 +10,7 @@ $endif$
 $if(fonttheme)$
 \usefonttheme{$fonttheme$}
 $endif$
+\setbeamertemplate{bibliography item}{»}
 \usepackage{ifxetex,ifluatex}
 \ifxetex
 \setsansfont[BoldItalicFont={Fira Sans Italic},%
@@ -57,6 +58,11 @@ $if(graphics)$
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 $endif$
+
+%% Text can stretch a little into margins to avoid bad line-breaks
+\setlength{\emergencystretch}{3em}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 $for(header-includes)$
 $header-includes$
