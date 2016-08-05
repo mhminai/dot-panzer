@@ -544,6 +544,7 @@ CIM: # For aomj style do not use xelatex (nextx does not work with xelatex)
             csl: /Users/mhminai/.panzer/template/csl/cim.csl
         filter:
             - run: pandoc-citeproc
+            - run: collect_floats.py
     latex:
         metadata:
             fontsize: 12pt
@@ -554,7 +555,7 @@ CIM: # For aomj style do not use xelatex (nextx does not work with xelatex)
             linestretch: 1.65
             classoption:
                 - a4paper
-            endfloat: TRUE
+            endfloat: FALSE  # collect_floats.py does this task for us
             titlepage: TRUE
             abstractonpage: TRUE
         commandline:
@@ -566,7 +567,5 @@ CIM: # For aomj style do not use xelatex (nextx does not work with xelatex)
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/cim_styles.docx`"
             default-image-extension: "`png`"
-        filter:
-            - run: collect_floats.py
 
 
