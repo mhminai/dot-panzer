@@ -149,37 +149,8 @@ $endif$
 
 
 \begin{document}  
-%\setkeys{Gin}{width=1\textwidth} 	
 \chapterstyle{article-4} 
 \maketitle
-%%\begin{titlingpage}
-%%\copypagestyle{titlingpage}{empty}
-%%\setlength{\droptitle}{-6\baselineskip}
-%%\maketitle
-%%\begin{tikzpicture} [overlay,remember picture]
-%%       \draw [line width=0.5mm ] 
-%%       % Using double $$ below as pandoc gets rid of one of them
-%%        ($$ (current page.north west) + (1.2cm, -1.2cm) $$)
-%%        rectangle
-%%        ($$ (current page.south east) + (-1.2cm, 1.2cm) $$);
-%%\end{tikzpicture}
-%%\vfill
-%%$if(title-image)$
-%%\begin{minipage}[c]{0.48\textwidth}
-%%    \begin{flushleft}
-%%        \includegraphics[width=2.5cm]{$title-image$}\\
-%%    \end{flushleft}
-%%\end{minipage}
-%%$endif$
-%%\begin{minipage}{0.48\textwidth}
-%%    \begin{flushright}
-%%        Indian Institute of Management \\
-%%        Prabandh Nagar \\
-%%        Lucknow (U.P.)  -- 226013\\
-%%        India \\
-%%    \end{flushright}
-%%\end{minipage}
-%%\end{titlingpage}
 
 \pagestyle{mhm}
 
@@ -195,19 +166,17 @@ $if(abstract)$
 \begin{abstract}
    $abstract$
 \end{abstract}
-
 $endif$
 
 $body$
 
 \newpage
 $if(biblatex)$
-\printbibliography$if(biblio-title)$[title=References]
+\printbibliography$if(biblio-title)$[title=References]$endif$
 $endif$
 
 %%\listoftodos
 
-$endif$
 $for(include-after)$
 $include-after$
 
