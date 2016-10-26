@@ -100,6 +100,10 @@ $if(bibliography)$
 \addbibresource{$bibliography$}
 $endif$
 
+% Pandoc sometimes gives \tightlist
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
 $if(tables)$
     \usepackage{longtable}
     \usepackage{booktabs}

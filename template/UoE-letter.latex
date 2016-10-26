@@ -59,6 +59,10 @@ $endif$
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
+%% Pandoc sometimes gives \tightlist
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
 %% Footnotes: stay on the same page
 \interfootnotelinepenalty=10000
 

@@ -86,6 +86,10 @@
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \usepackage{csquotes}
 
+% Pandoc sometimes gives a \tightlist
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
 %\usepackage[backref=true,url=false,style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
 \usepackage[backref=true,backend=biber,isbn=false,url=false,doi=false]{biblatex}
 \DeclareLanguageMapping{american}{american-apa}
