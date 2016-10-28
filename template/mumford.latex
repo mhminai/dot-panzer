@@ -3,20 +3,22 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper]{geometry}
-\usepackage[opticals,fullfamily,mathlf,minionint,footnotefigures]{MinionPro}
-\usepackage{MyriadPro}
-\usepackage[scaled=0.85]{inconsolata}
-\usepackage[cm]{fullpage}
+%\usepackage{bookman}
+\usepackage{noto}
+%\usepackage[scaled=0.85]{inconsolata}
+%\usepackage[cm]{fullpage}
 \usepackage{multicol}
 \usepackage{indentfirst}
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{gitinfo}
-\usepackage[tiny,compact,sf,bf,pagestyles]{titlesec}
+\usepackage[medium,compact,sf,bf,pagestyles]{titlesec}
 \usepackage[british]{babel}
 \usepackage[autostyle]{csquotes}
 \usepackage[babel,verbose=silent]{microtype}
+\usepackage{setspace}
+\setstretch{1.25}
 
 %% [natbib]: use natbib option for biblatex
 $if(natbib)$
@@ -34,20 +36,20 @@ $endif$
 $endif$
 
 %% Git date and commit hash: print if set, otherwise do nothing
-\ifnum\pdfstrcmp{\gitAuthorDate}{(None)}=0
-    \def\gitstamp{\relax}
-\else
-	\def\gitstamp{\flushright{\scriptsize \texttt{\gitAbbrevHash\ on \gitAuthorDate}}}
-\fi
+%%\ifnum\pdfstrcmp{\gitAuthorDate}{(None)}=0
+%%    \def\gitstamp{\relax}
+%%\else
+%%	\def\gitstamp{\flushright{\scriptsize \texttt{\gitAbbrevHash\ on \gitAuthorDate}}}
+%%\fi
 
 %% Right footer of first page: email address
 \renewpagestyle{empty}{
-  \setfoot{\hfill}{\hfill}{\footnotesize \href{mailto:mark.sprevak@ed.ac.uk}{\texttt{mark.sprevak@ed.ac.uk}}}
+  \setfoot{\hfill}{\hfill}{\footnotesize \href{mailto:mhminai@gmail.com}{\texttt{mhminai@gmail.com}}}
 }
 
 %% Subsection title format: small bold sans, no spacing
-\titleformat{\subsection}{\sffamily\bfseries\footnotesize}{}{0em}{}
-\titlespacing{\subsection}{0pt}{0pt}{0pt}
+%%\titleformat{\subsection}{\sffamily\bfseries\footnotesize}{}{0em}{}
+%%\titlespacing{\subsection}{0pt}{0pt}{0pt}
 
 %% Set column separation
 \setlength{\columnsep}{1.5cm}
@@ -168,8 +170,8 @@ $endif$
 %% Paragraphs: shift entire para right by hanging indent
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
-\parindent -0.1in
-\leftskip 0.1in
+%%\parindent -0.1in
+%%\leftskip 0.1in
 
 $if(numbersections)$
 \setcounter{secnumdepth}{5}
@@ -195,11 +197,11 @@ $endif$
 %% \gitAuthorDate set: set that as the date
 %% Otherwise: set \today as the date
 %% This is overridden if $date$ is set manually in document
-\ifnum\pdfstrcmp{\gitAuthorDate}{(None)}=0
-  \date{\today}
-\else
-  \date{\printdate{\gitAuthorDate}}
-\fi
+%%\ifnum\pdfstrcmp{\gitAuthorDate}{(None)}=0
+%%  \date{\today}
+%%\else
+%%  \date{\printdate{\gitAuthorDate}}
+%%\fi
 
 $if(date)$
 \date{$date$}
@@ -217,7 +219,7 @@ $for(include-before)$
 $include-before$
 $endfor$
 
-\begin{multicols}{2}
+%%\begin{multicols}{2}
 
 $body$
 
@@ -229,6 +231,6 @@ $for(include-after)$
 $include-after$
 $endfor$
 
-\end{multicols}
+%%\end{multicols}
 
 \end{document}

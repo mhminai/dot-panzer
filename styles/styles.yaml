@@ -21,7 +21,7 @@ Base:
             - run: tmp_out.py
         postflight:
             - run: latexmk.py
-            - run: open_pdf.py
+#            - run: open_pdf.py
         cleanup:
             - run: tmp_back.py
             - run: rmlatex.py
@@ -51,45 +51,14 @@ Article:
     html:
         template: article.html
         commandline:
-            include-in-header: "`/Users/msprevak/.panzer/template/css/momento-pandoc.css`"
+            include-in-header: "`/Users/mhminai/.panzer/template/css/momento-pandoc.css`"
         filter:
-            - run: addrefline.py
+#            - run: addrefline.py
             - run: pandoc-citeproc
     docx:
         filter:
-            - run: addrefline.py
+#            - run: addrefline.py
             - run: pandoc-citeproc
-
-BookReview:
-    parent:
-        - Article
-    all:
-        metadata:
-            review:
-                title: "No title"
-                author: "No author"
-                editor: "No editor"
-                publisher: "No publisher"
-                address: "No address"
-                year: "No year"
-                pages: "No pages"
-                price: "No price"
-                ISBN: "No ISBN"
-
-Braindead:
-    parent:
-        - Article
-    all:
-        metadata:
-            anonymous: false   # remove author info
-            endnotes: false    # endnotes, not footnotes
-    latex:
-        template: braindead.latex
-        metadata:
-            fontsize: 12pt
-        commandline:
-            natbib: false
-
 
 Draft:
     parent: Article
@@ -105,34 +74,6 @@ AddLatexRefs:
         commandline:
             natbib: true
 
-
-########################################################################
-#                                Notes                                 #
-########################################################################
-
-NotesSans:
-    parent:
-        - Notes
-    latex:
-        metadata:
-            sans-style: true
-
-########################################################################
-#                                  CV                                  #
-########################################################################
-
-CV:
-    parent:
-        - Notes
-    latex:
-        metadata:
-            vert-whitespace: false
-            horiz-whitespace: false
-            fontsize: 10pt
-            include-before:
-                - '\raggedright'
-        postflight:
-            - kill: open_pdf.py
 
 ########################################################################
 #                               Mumford                                #
@@ -214,8 +155,10 @@ Work:
         metadata:
             fontsize: 11pt
             csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
+            linestretch: 1.85
         commandline:
             latex-engine: "`xelatex`"
+            default-image-extension: "`pdf`"
         template: wp_memoir.latex
         preflight:
             - run: tmp_out.py
