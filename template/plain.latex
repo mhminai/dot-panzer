@@ -17,6 +17,10 @@ $endif$
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
   \usepackage[utf8]{inputenc}
+  \newcommand{\getAlpha}{\ensuremath{\alpha}}
+  \newcommand{\getBeta}{\ensuremath{\beta}}
+  \DeclareUnicodeCharacter{3B1}{\getAlpha}
+  \DeclareUnicodeCharacter{3B2}{\getBeta}
 $if(euro)$
   \usepackage{eurosym}
 $endif$
@@ -59,6 +63,7 @@ $endif$
 $if(geometry)$
 \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
 $endif$
+
 \usepackage{hyperref}
 $if(colorlinks)$
 \PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
@@ -83,6 +88,7 @@ $else$
 $endif$
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+
 $if(lang)$
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[shorthands=off,$for(babel-otherlangs)$$babel-otherlangs$,$endfor$main=$babel-lang$]{babel}
@@ -97,13 +103,16 @@ $for(polyglossia-otherlangs)$
 $endfor$
 \fi
 $endif$
+
 $if(natbib)$
 \usepackage{natbib}
 \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
 $endif$
+
 $if(biblatex)$
 \usepackage$if(biblio-style)$[style=$biblio-style$]$endif${biblatex}
-\usepackage[style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
+$if(biblatexoptions)$\ExecuteBibliographyOptions{$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$}$endif$
+%\usepackage[style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
 $for(bibliography)$
 \addbibresource{$bibliography$}
 $endfor$
@@ -126,6 +135,7 @@ $if(tables)$
     \usepackage{booktabs}
     \usepackage{threeparttable}
     \usepackage{dcolumn}
+    \usepackage{pdflscape}
     \DeclareMathVersion{nxbold}
     \SetSymbolFont{operators}{nxbold}{OT1}{cmr} {b}{n}
     \SetSymbolFont{letters}  {nxbold}{OML}{cmm} {b}{it}
@@ -140,7 +150,9 @@ $if(tables)$
   {\newgeometry{margin=1in}\begin{landscape}\thispagestyle{plain}\begin{table}}
   {\end{table}\end{landscape}\restoregeometry}
 $endif$
-\usepackage{pdflscape}
+%\usepackage{pdflscape}
+%\usepackage{dcolumn}
+%\usepackage{booktabs}
 $if(graphics)$
 \usepackage{graphicx,grffile}
 \makeatletter
@@ -152,15 +164,22 @@ $if(graphics)$
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 $endif$
+
 $if(links-as-notes)$
 % Make links footnotes instead of hotlinks:
 \renewcommand{\href}[2]{#2\footnote{\url{#1}}}
 $endif$
+
 $if(strikeout)$
 \usepackage[normalem]{ulem}
 % avoid problems with \sout in headers with hyperref:
 \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 $endif$
+
+% style-leadjou has a \parindent of 0.2in, check and add if necessary
+% style-lodj has a \parindent of 0.2in, check and add if necessary
+% style-refer has a \parindent of 0.2in, check and add if necessary
+% style-jlos has a \parindent of 0.3in, check and add if necessary
 $if(indent)$
 $else$
 \IfFileExists{parskip.sty}{%
@@ -170,14 +189,17 @@ $else$
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
 }
 $endif$
+
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
 $if(numbersections)$
 \setcounter{secnumdepth}{5}
 $else$
 \setcounter{secnumdepth}{0}
 $endif$
+
 $if(subparagraph)$
 $else$
 % Redefines (sub)paragraphs to behave more like sections
@@ -190,6 +212,7 @@ $else$
 \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
 $endif$
+
 $if(dir)$
 \ifxetex
   % load bidi as late as possible as it modifies e.g. graphicx
@@ -208,9 +231,36 @@ $if(dir)$
 \fi
 $endif$
 
+$if(nojustify)$
+\usepackage[document]{ragged2e}
+\setlength{\RaggedRightParindent}{\parindent}
+$endif$
+
 $if(verbatim-in-note)$
 \VerbatimFootnotes % allows verbatim text in footnotes
 $endif$
+
+$if(style-aomj)$
+\makeatletter
+\renewenvironment{titlepage}
+ {%
+     \if@twocolumn
+         \@restonecoltrue\onecolumn
+     \else
+         \@restonecolfalse\newpage
+     \fi
+     \thispagestyle{plain}%
+ }
+ {%
+ \if@restonecol
+     \twocolumn
+ \else
+     \newpage
+ \fi
+ }
+\makeatother
+$endif$
+
 $if(endfloat)$
 \usepackage[nolists,tablesfirst]{endfloat}
 % new environment for landscape tables
@@ -233,6 +283,120 @@ $endif$
 \usepackage[obeyFinal,colorinlistoftodos,textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
 \presetkeys{todonotes}{inline, color=green!40}{}
 
+$if(style-leadjou)$
+\pagestyle{myheadings}
+$endif$
+
+$if(style-jlos)$
+\pagestyle{myheadings}
+$endif$
+
+$if(style-aomj)$
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{$wp_num$}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+$endif$
+
+$if(style-aomj)$
+\usepackage{titlesec}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Roman{subsection}}
+\renewcommand\thesubsubsection{\Roman{subsubsection}}
+\titleformat{\section}[block]{\bfseries\centering}{\thesection.}{1em}{\MakeUppercase}
+\titleformat{\subsection}[block]{\bfseries}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}[runin]{\bfseries\itshape}{\thesubsubsection.}{1em}{}[.]
+\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
+\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
+
+$if(abstract)$
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\normalsize\bfseries\MakeUppercase}
+\renewcommand{\abstracttextfont}{\normalfont\normalsize}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\setlength{\absparindent}{\parindent}
+$endif$
+$endif$
+
+$if(style-leadjou)$
+\usepackage{titlesec}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Roman{subsection}}
+\renewcommand\thesubsubsection{\Roman{subsubsection}}
+\titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}[block]{\itshape}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}[runin]{\itshape}{\thesubsubsection.}{1em}{}[.]
+%\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
+%\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+%\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
+
+$if(abstract)$
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\normalsize\bfseries\MakeUppercase}
+\renewcommand{\abstracttextfont}{\normalfont\normalsize}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\setlength{\absparindent}{\parindent}
+$endif$
+$endif$
+
+$if(style-jlos)$
+\usepackage{titlesec}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Roman{subsection}}
+\renewcommand\thesubsubsection{\Roman{subsubsection}}
+\titleformat{\section}[block]{\bfseries\centering}{\thesection.}{1em}{\MakeUppercase}
+\titleformat{\subsection}[block]{\bfseries}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}[runin]{\bfseries\itshape}{\thesubsubsection.}{1em}{}[.]
+\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
+\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
+
+$if(abstract)$
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\normalsize\bfseries\MakeUppercase}
+\renewcommand{\abstracttextfont}{\normalfont\normalsize}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\setlength{\absparindent}{\parindent}
+$endif$
+$endif$
+
+$if(style-lodj)$
+\usepackage{titlesec}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Roman{subsection}}
+\renewcommand\thesubsubsection{\Roman{subsubsection}}
+\titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}[block]{\itshape}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}[runin]{\itshape}{\thesubsubsection.}{1em}{}[.]
+\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
+\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
+
+$if(abstract)$
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\normalsize\bfseries\MakeUppercase}
+\renewcommand{\abstracttextfont}{\normalfont\normalsize}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\setlength{\absparindent}{\parindent}
+$endif$
+$endif$
+
+$if(picktitlepage)$
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+$endif$
+
 $for(header-includes)$
 $header-includes$
 $endfor$
@@ -244,23 +408,30 @@ $if(subtitle)$
 \providecommand{\subtitle}[1]{}
 \subtitle{$subtitle$}
 $endif$
-\author{
-$for(author)$
-    $if(author.name)$
-    \normalsize\MakeUppercase{$author.name$}\\
-    $for(author.address)$\normalsize $author.address$\\$endfor$
-    {\small\itshape e-mail: $author.email$}
-    $else$PLEASE GIVE STRUCTURED AUTHOR WITH ADDRESS ETC.
-    $endif$$sep$\and
-$endfor$
-}
+\author{ $for(author)$ $if(author.name)$\normalsize $author.name$\\$endif$ $if(author.address)$\normalsize $author.address$\\$endif$ $if(author.email)$\small\itshape e-mail: $author.email$$endif$ $sep$\and $endfor$ }%
+%\author{
+%$for(author)$
+%    $if(author.name)$
+%    \normalsize\MakeUppercase{$author.name$}\\
+%    $for(author.address)$\normalsize $author.address$\\$endfor$
+%    {\small\itshape e-mail: $author.email$}
+%    $else$PLEASE GIVE STRUCTURED AUTHOR WITH ADDRESS ETC.
+%    $endif$$sep$\and
+%$endfor$
+%}
 \date{\small $date$}
 
 
 \begin{document}
+$if(notitlepage)$
+$else$
 $if(picktitlepage)$
 \thispagestyle{empty}
 \input{titlepage.tex}
+\pagenumbering{Alph}
+\pagenumbering{gobble}
+\newpage
+\pagenumbering{arabic}
 $else$
 $if(title)$
 \setstretch{1}
@@ -273,6 +444,7 @@ $if(titleonpage)$%If titleonpage is TRUE, create separate title page else do not
 \newpage
 \pagenumbering{arabic}
 $else$
+$endif$
 $endif$
 $endif$
 $endif$

@@ -3,17 +3,25 @@
 \usepackage[american]{babel}
 \usepackage{libertine}
 
-%\setlrmarginsandblock{40mm}{25mm}{*}
-%\setlxvchars \setxlvchars[\small\sffamily]
-%\checkandfixthelayout
-%\fixpdflayout
+\setlrmarginsandblock{40mm}{25mm}{*}
+\setlxvchars \setxlvchars[\small\sffamily]
+\checkandfixthelayout
+\fixpdflayout
 
 \usepackage[final, babel=true]{microtype}
 \usepackage{amsmath} % amsmath which also loads fonts?
 
 \usepackage[svgnames,table]{xcolor}
+%\usepackage[shortlabels]{enumitem}
 \usepackage[textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
 \usepackage{pdflscape}
+\usepackage{titlesec}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Roman{subsection}}
+\renewcommand\thesubsubsection{\Roman{subsubsection}}
+\titleformat{\section}[block]{\bfseries\centering}{\thesection.}{1em}{\MakeUppercase}
+\titleformat{\subsection}[block]{\bfseries}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}[runin]{\bfseries\itshape}{\thesubsubsection.}{1em}{}[.]
 
 \renewcommand{\and}{\, }
 \renewcommand*{\andnext}{%
@@ -30,6 +38,7 @@
   \renewcommand{\chapternamenum}{} 
   \renewcommand{\chapnumfont}{\chaptitlefont} 
   \renewcommand{\printchapternum}{\chapnumfont \thechapter\space} 
+  \renewcommand{\printchapternum}{} 
   \renewcommand{\afterchapternum}{} 
   \renewcommand{\printchaptername}{\secheadstyle}
   \renewcommand{\cftchapterfont}{\normalfont} 
@@ -44,7 +53,7 @@
 
   % reduce skip after section heading
   \setaftersecskip{1.7ex}
-  
+
   % set name of bibliography to 'references'
   %\renewcommand{\bibname}{\mdseries\Large\scshape\MakeLowercase References}
 
@@ -81,12 +90,13 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-\usepackage[url=false,style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
+%\usepackage[url=false,style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
+\usepackage[backref=true,backend=biber,isbn=false,url=false,doi=false]{biblatex}
 \DeclareLanguageMapping{american}{american-apa}
 
-$if(bibliography)$
+$for(bibliography)$
 \addbibresource{$bibliography$}
-$endif$
+$endfor$
 
 $if(tables)$
     \usepackage{longtable}
@@ -116,32 +126,32 @@ $endif$
 \makeatother
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 
-%\graphicspath{{./paper_example/}}
-
-\usepackage[unicode=true]{hyperref}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
 \hypersetup{breaklinks=true,
-            %bookmarks=true,
-            pdfauthor={},
-            pdftitle={},
+            bookmarks=true,
+            pdfauthor={$author-meta$},
+            pdftitle={$title-meta$},
             colorlinks=true,
-            citecolor=Maroon,
-            urlcolor=NavyBlue,
-            linkcolor=Magenta,
+            citecolor=$if(citecolor)$$citecolor$$else$Maroon$endif$,
+            urlcolor=$if(urlcolor)$$urlcolor$$else$NavyBlue$endif$,
+            linkcolor=$if(linkcolor)$$linkcolor$$else$Magenta$endif$,
             pdfborder={0 0 0}}
 \urlstyle{same}  % don't use monospace font for urls
 
 \setcounter{secnumdepth}{0}
 
-%%\usepackage{tikz}
-%%\usetikzlibrary{calc}
-%%\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
 
 \title{$title$}
 
-%%\author{$for(author)$\Large $author.name$ \\
-%%    \large\emph{$author.affiliation$} \vspace*{0.1in} \\
-%%    \normalsize\url{$author.email$}\vspace*{0.2in} \\
-%%    $sep$ \and $endfor$}
 $if(author.name)$
 \author{$for(author)$\Large $author.name$,$sep$ \and $endfor$ $if(thanks)$\thanks{$thanks$}$endif$}
 $else$
@@ -151,10 +161,13 @@ $endif$
 \date{\textsc{$date$}}
 
 
-\begin{document}  
-\chapterstyle{article-4} 
-\maketitle
-
+\begin{document}
+$if(picktitlepage)$
+\input{titlepage.tex}
+$endif$
+\chapterstyle{article-4}
+\maketitle%
+%
 \pagestyle{mhm}
 
 $if(toc)$

@@ -56,8 +56,26 @@ Mumford:
         metadata:
             fontsize: 11pt
 
+ChadStyle:
+    latex:
+        metadata:
+            fontsize: 11pt
+            mainfont: Hoefler Text
+            sansfont: Optima
+            monofont: Courier New
+            reference-section-title: References
+        commandline:
+            default-image-extension: "`pdf`"
+            latex-engine: "`xelatex`"
+        template: chadstyle.latex
 
 Plain:
+    all:
+        metadata:
+            reference-section-title: References
+            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
+        filter:
+            - run: pandoc-citeproc
     latex:
         metadata:
             geometry: margin=1.25in
@@ -69,125 +87,11 @@ Plain:
             abstractonpage: TRUE
             titlesec: TRUE
             titlesecoptions: [medium, compact, bf, center, pagestyles]
-        filter:
-            - run: pandoc-citeproc
         commandline:
             default-image-extension: "`pdf`"
         template: plain.latex
 
-PropStyle:
-    latex:
-        metadata:
-            fontsize: 12pt
-        commandline:
-            latex-engine: "`xelatex`"
-            biblatex: true
-        template: mem_proposal.latex
-        preflight:
-            - run: tmp_out.py
-        postflight:
-            - run: latexmk.py
-        cleanup:
-            - run: tmp_back.py
-
-ChadStyle:
-    latex:
-        metadata:
-            fontsize: 11pt
-            mainfont: Hoefler Text
-            sansfont: Optima
-            monofont: Courier New
-        commandline:
-            default-image-extension: "`pdf`"
-            latex-engine: "`xelatex`"
-        template: chadstyle.latex
-
-PanCite:
-    all:
-        filter:
-            - run: pandoc-citeproc
-RefAOM:
-    all:
-        metadata:
-            csl: /Users/mhminai/.panzer/template/csl/aom.csl
-
-RefAPA:
-    all:
-        metadata:
-            csl: /Users/mhminai/.panzer/template/csl/apa.csl
-
-RefAPA_nodoi:
-    all:
-        metadata:
-            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
-
-BiblatexPdf:
-    latex:
-        commandline:
-            biblatex: true
-        postflight:
-            - run: latexmk.py
-
-ApaStyle:
-    docx:
-        filter:
-            - run: pandoc-citeproc
-        commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
-
-LodjStyle:
-    all:
-        metadata:
-            csl: "/Users/mhminai/.panzer/template/csl/lodj.csl"
-        filter:
-            - run: pandoc-citeproc
-    docx:
-        commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
-            default-image-extension: "`png`"
-    latex:
-        metadata:
-            fontsize: 12pt
-            fontfamily: libertine
-            geometry: margin=1in
-            linestretch: 1.85
-            classoption:
-                - letterpaper
-            endfloat: TRUE
-            titlepage: TRUE
-            abstractonpage: TRUE
-        commandline:
-            default-image-extension: "`pdf`"
-        template: lodj.latex
-
-AomjStyle: # For aomj style do not use xelatex (nextx does not work with xelatex)
-    all:
-        metadata:
-            csl: /Users/mhminai/.panzer/template/csl/aomr.csl
-        filter:
-            - run: pandoc-citeproc
-    latex:
-        metadata:
-            fontsize: 12pt
-            fontfamily:
-                - newtxtext
-                - newtxmath
-            geometry: margin=1in
-            linestretch: 2
-            classoption:
-                - letterpaper
-            endfloat: TRUE
-            titlepage: TRUE
-            abstractonpage: TRUE
-        commandline:
-            default-image-extension: "`pdf`"
-        template: aomj.latex
-    docx:
-        commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/aomj_styles.docx`"
-            default-image-extension: "`png`"
-
-MthemePres:
+Pres:
     beamer:
         metadata:
             referencelist: TRUE
@@ -211,122 +115,139 @@ MthemePres:
         cleanup:
             - run: tmp_back.py
 
-LeadJouStyle: # (newtx does not work with xelatex)
+Journal:
+    all:
+        metadata:
+            reference-section-title: References
+        filter:
+            - run: pandoc-citeproc
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
+            default-image-extension: "`png`"
+    latex:
+        metadata:
+            fontsize: 12pt
+            fontfamily: [newtxtext, newtxmath]
+            geometry: margin=1in
+            linestretch: 2
+            classoption: a4paper
+            endfloat: TRUE
+            titleonpage: TRUE
+            abstractonpage: TRUE
+        commandline:
+            default-image-extension: "`pdf`"
+        template: plain.latex
+
+AomStyle:
+    parent: Journal
+    all:
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/aomr.csl
+    latex:
+        metadata:
+            classoption: letterpaper
+            style-aomj: TRUE
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/aomj_styles.docx`"
+
+LeadJouStyle:
+    parent: Journal
     all:
         metadata:
             csl: /Users/mhminai/.panzer/template/csl/sage_harvard.csl
-        filter:
-            - run: pandoc-citeproc
     latex:
         metadata:
-            fontsize: 12pt
-            fontfamily: 
-                - newtxtext
-                - newtxmath
             geometry: hmargin=3cm, vmargin=5cm
-            linestretch: 2
-            classoption:
-                - letterpaper
-        commandline:
-            default-image-extension: "`pdf`"
-        template: leadjou.latex
-        preflight:
-            - run: tmp_out.py
-        postflight:
-            - run: latexmk.py
-        cleanup:
-            - run: tmp_back.py
-    docx:
-        commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/leadjou_styles.docx`"
-
-Story:
-    latex:
-        metadata:
-            fontsize: 11pt
-            mainfont: "Hoefler Text"
-            sansfont: Optima
-            monofont: Courier New
-            #fontoption:
-            #    - semibold
-            geometry: margin=1in
-            linestretch: 1.25
-            classoption:
-                - a4paper
-        commandline:
-            default-image-extension: "`pdf`"
-            latex-engine: "`xelatex`"
-            biblatex: false
-        template: story.latex
-        preflight:
-            - run: tmp_out.py
-        postflight:
-            - run: latexmk.py
-        cleanup:
-            - run: tmp_back.py
-
-ReferJournals:
-    all:
-        metadata:
-            csl: /Users/mhminai/.panzer/template/csl/alpha_references.csl
-        filter:
-            - run: pandoc-citeproc
-    latex:
-        metadata:
-            fontsize: 12pt
-            fontfamily: 
-                - newtxtext
-                - newtxmath
-                - libertine
-            geometry: hmargin=1in, vmargin=1in
-            linestretch: 1.15
-            classoption:
-                - letterpaper
-        commandline:
-            default-image-extension: "`pdf`"
-        template: referjournals.latex
-        preflight:
-            - run: tmp_out.py
-        postflight:
-            - run: latexmk.py
-        cleanup:
-            - run: tmp_back.py
+            style-leadjou: TRUE
 
 JlosStyle:
-    all:
-        metadata:
-            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
-        filter:
-            - run: pandoc-citeproc
+    parent: Journal
     latex:
         metadata:
-            fontsize: 12pt
-            fontfamily:
-                - newtxtext
-                - newtxmath
-            geometry: margin=1in
-            linestretch: 2
-            classoption:
-                - letterpaper
-            endfloat: true
-        commandline:
-            default-image-extension: "`pdf`"
-        template: jlos.latex
-        preflight:
-            - run: tmp_out.py
-        postflight:
-            - run: latexmk.py
-        cleanup:
-            - run: tmp_back.py
+            style-jlos: TRUE
     docx:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
 
-Notes:
+AamjStyle:
+    parent: Journal
     latex:
         metadata:
-            fontsize: 11pt
-            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
+            style-aomj: TRUE
+
+CIM:
+    parent: Journal
+    all:
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/cim.csl
+        filter:
+            - run: collect_floats.py
+    latex:
+        metadata:
+            linestretch: 1.65
+            style-aomj: TRUE
+            endfloat: FALSE  # collect_floats.py does this task for us
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/cim_styles.docx`"
+
+LodjStyle:
+    parent: Journal
+    all:
+        metadata:
+            csl: "/Users/mhminai/.panzer/template/csl/lodj.csl"
+    docx:
+        commandline:
+            reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
+    latex:
+        metadata:
+            style-lodf: TRUE
+
+ReferJournals:
+    parent: Journal
+    all:
+        metadata:
+            csl: /Users/mhminai/.panzer/template/csl/alpha_references.csl
+    latex:
+        metadata:
+            fontfamily: libertine
+            biblatexoptions: [backref=true, backend=biber, isbn=false, url=false, doi=false]
+            style-leadjou: TRUE
+
+BiblatexPdf:
+    latex:
+        commandline:
+            biblatex: true
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        cleanup:
+            - run: tmp_back.py
+            - run: rmlatex.py
+
+Story:
+    parent: Plain
+    latex:
+        metadata:
+            mainfont: "Hoefler Text"
+            sansfont: Optima
+            monofont: Courier New
+        commandline:
+            latex-engine: "`xelatex`"
+        template: plain.latex
+        preflight:
+            - run: tmp_out.py
+        postflight:
+            - run: latexmk.py
+        cleanup:
+            - run: tmp_back.py
+
+Notes:
+    parent: Plain
+    latex:
         commandline:
             latex-engine: "`xelatex`"
         template: notes.latex
@@ -337,85 +258,11 @@ Book:
             documentclass: memoir
             fontsize: 11pt
             fontfamily: bookman
-            #sansfont: Optima
-            #monofont: Courier New
-            #endfloat: FALSE
-            #titlepage: TRUE
-            #fontoption:
-            #    - semibold
-            #geometry: margin=1in
-            #linestretch: 1.25
             classoption:
                 - ebook
                 - openany
                 - showtrims
         commandline:
             default-image-extension: "`pdf`"
-            #latex-engine: "`xelatex`"
             biblatex: false
         template: book.latex
-        #preflight:
-        #    - run: tmp_out.py
-        #postflight:
-        #    - run: latexmk.py
-        #cleanup:
-        #    - run: tmp_back.py
-
-AamjStyle:
-    all:
-        metadata:
-            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
-        filter:
-            - run: pandoc-citeproc
-    latex:
-        metadata:
-            fontsize: 12pt
-            fontfamily:
-                - newtxtext
-                - newtxmath
-            geometry: margin=1in
-            linestretch: 2
-            classoption:
-                - letterpaper
-            endfloat: TRUE
-            titlepage: TRUE
-            abstractonpage: TRUE
-        commandline:
-            default-image-extension: "`pdf`"
-        template: aamj.latex
-    docx:
-        commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
-            default-image-extension: "`png`"
-
-CIM: # For aomj style do not use xelatex (nextx does not work with xelatex)
-    all:
-        metadata:
-            csl: /Users/mhminai/.panzer/template/csl/cim.csl
-        filter:
-            - run: pandoc-citeproc
-            - run: collect_floats.py
-    latex:
-        metadata:
-            fontsize: 12pt
-            fontfamily:
-                - newtxtext
-                - newtxmath
-            geometry: margin=1in
-            linestretch: 1.65
-            classoption:
-                - a4paper
-            endfloat: FALSE  # collect_floats.py does this task for us
-            titlepage: TRUE
-            abstractonpage: TRUE
-        commandline:
-            default-image-extension: "`pdf`"
-        template: aomj.latex
-    docx:
-        metadata:
-            endfloat: FALSE
-        commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/cim_styles.docx`"
-            default-image-extension: "`png`"
-
-
