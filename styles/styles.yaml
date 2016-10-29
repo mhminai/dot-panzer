@@ -1,12 +1,7 @@
-########################################################################
-#                     Base - parent of all styles                      #
-########################################################################
-
 Base:
     all:
         metadata:
             numbersections: true
-            bibliography: "/Users/msprevak/Library/texmf/bibtex/bib/mds-bib/refs.bib"
         commandline:
             smart: true
             standalone: true
@@ -14,21 +9,15 @@ Base:
             - run: smallcaps.py
     latex:
         metadata:
-            lang: british
+            lang: american
             papersize: a4paper
-            biblio-files: "/Users/msprevak/Library/texmf/bibtex/bib/mds-bib/refs.bib"
         preflight:
             - run: tmp_out.py
         postflight:
             - run: latexmk.py
-#            - run: open_pdf.py
         cleanup:
             - run: tmp_back.py
             - run: rmlatex.py
-
-########################################################################
-#                               Article                                #
-########################################################################
 
 Article:
     parent:
@@ -57,27 +46,7 @@ Article:
             - run: pandoc-citeproc
     docx:
         filter:
-#            - run: addrefline.py
             - run: pandoc-citeproc
-
-Draft:
-    parent: Article
-    latex:
-        metadata:
-            savetrees: true
-            fontsize: 11pt
-        commandline:
-            natbib: false
-
-AddLatexRefs:
-    latex:
-        commandline:
-            natbib: true
-
-
-########################################################################
-#                               Mumford                                #
-########################################################################
 
 Mumford:
     parent:
@@ -87,86 +56,24 @@ Mumford:
         metadata:
             fontsize: 11pt
 
-########################################################################
-#                               Letter                                 #
-########################################################################
-
-Letter:
-    parent:
-        - Base
-    all:
-        metadata:
-            opening: false
-            closing: "Yours sincerely,"
-            letterhead:
-                image: "/Users/msprevak/.panzer/template/img/eulogo.pdf"
-                sender: "Dr. Mark Sprevak"
-                role: "Senior Lecturer"
-                affiliation: "SCHOOL *of* PHILOSOPHY, PSYCHOLOGY *and* LANGUAGE SCIENCES"
-                address: |
-                    | The University of Edinburgh
-                    | Dugald Stewart Building
-                    | 3 Charles Street
-                    | Edinburgh EH8 9AD
-                phone: "650 3960"
-                switchboard: "650 1000"
-                email: "mark.sprevak@ed.ac.uk"
-                website: "http://sites.google.com/site/msprevak"
-            cc: false
-            ps: false
-            incl: false
-            signed: true            # sign using image below
-            signature: "/Users/msprevak/Documents/Correspondence/Signature.png"
-    latex:
-        template: UoE-letter.latex
-        metadata:
-            fontsize: 11pt
-
-#######################################################################
-#                    Work, style for working paper                    #
-#######################################################################
 
 Plain:
     latex:
         metadata:
+            geometry: margin=1.25in
             fontsize: 11pt
-            mainfont: Times New Roman
-            sansfont: Optima
-            monofont: Courier New
-            #fontoption:
-            #    - semibold
-            geometry: margin=1in
-            linestretch: 1.15
-            classoption:
-                - a4paper
+            linestretch: 1.25
+            classoption: a4paper
+            reference-section-title: References
+            titleonpage: TRUE
+            abstractonpage: TRUE
+            titlesec: TRUE
+            titlesecoptions: [medium, compact, bf, center, pagestyles]
+        filter:
+            - run: pandoc-citeproc
         commandline:
             default-image-extension: "`pdf`"
-            latex-engine: "`xelatex`"
         template: plain.latex
-        preflight:
-            - run: tmp_out.py
-        postflight:
-            - run: latexmk.py
-        cleanup:
-            - run: tmp_back.py
-
-Work:
-    latex:
-        metadata:
-            fontsize: 11pt
-            csl: /Users/mhminai/.panzer/template/csl/apa_nodoi.csl
-            linestretch: 1.85
-        commandline:
-            latex-engine: "`xelatex`"
-            default-image-extension: "`pdf`"
-        template: wp_memoir.latex
-        preflight:
-            - run: tmp_out.py
-        postflight:
-            - run: latexmk.py
-        cleanup:
-            - run: tmp_back.py
-            - run: rmlatex.py
 
 PropStyle:
     latex:
@@ -246,7 +153,7 @@ LodjStyle:
             linestretch: 1.85
             classoption:
                 - letterpaper
-            endflot: TRUE
+            endfloat: TRUE
             titlepage: TRUE
             abstractonpage: TRUE
         commandline:

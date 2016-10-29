@@ -37,7 +37,7 @@
   \renewcommand{\printchaptername}{} 
   \renewcommand{\chapternamenum}{} 
   \renewcommand{\chapnumfont}{\chaptitlefont} 
-  %\renewcommand{\printchapternum}{\chapnumfont \thechapter\space} 
+  \renewcommand{\printchapternum}{\chapnumfont \thechapter\space} 
   \renewcommand{\printchapternum}{} 
   \renewcommand{\afterchapternum}{} 
   \renewcommand{\printchaptername}{\secheadstyle}
@@ -53,7 +53,7 @@
 
   % reduce skip after section heading
   \setaftersecskip{1.7ex}
-  
+
   % set name of bibliography to 'references'
   %\renewcommand{\bibname}{\mdseries\Large\scshape\MakeLowercase References}
 
@@ -80,7 +80,7 @@
 \makeevenfoot{mhm}{\thepage}{}{}
 \makeoddfoot{mhm}{}{}{\thepage}
 \makeevenhead{mhm}{$wp_num$}{\color{Blue}\scshape\MakeLowercase{$shorttitle$}}{}
-\makeoddhead{mhm}{}{\color{Blue}\scshape\MakeLowercase{thesis proposal: FPM13010}}{$wp_num$}
+\makeoddhead{mhm}{}{\color{Blue}\scshape\MakeLowercase{$author$}}{$wp_num$}
 
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -113,6 +113,9 @@ $if(tables)$
     \newcolumntype{B}{>{\boldmath\DC@{.}{\cdot}{2}}c<{\DC@end}}
     \newcolumntype{Z}{>{\mathversion{nxbold}\DC@{.}{\cdot}{2}}c<{\DC@end}}
     \makeatother
+\newenvironment{ltable}
+  {\newgeometry{margin=1in}\begin{landscape}\thispagestyle{plain}\begin{table}}
+  {\end{table}\end{landscape}\restoregeometry}
     %\usepackage{tabular}
 $endif$
 
@@ -135,17 +138,25 @@ $endif$
             pdfauthor={$author-meta$},
             pdftitle={$title-meta$},
             colorlinks=true,
-            citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
-            urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
-            linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$,
+            citecolor=$if(citecolor)$$citecolor$$else$Maroon$endif$,
+            urlcolor=$if(urlcolor)$$urlcolor$$else$NavyBlue$endif$,
+            linkcolor=$if(linkcolor)$$linkcolor$$else$Magenta$endif$,
             pdfborder={0 0 0}}
 \urlstyle{same}  % don't use monospace font for urls
 
 \setcounter{secnumdepth}{0}
 
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+
 \title{$title$}
 
-\author{\Large $author.name$ $if(thanks)$\thanks{$thanks$}$endif$}
+$if(author.name)$
+\author{$for(author)$\Large $author.name$,$sep$ \and $endfor$ $if(thanks)$\thanks{$thanks$}$endif$}
+$else$
+\author{\Large $author$ $if(thanks)$\thanks{$thanks$}$endif$}
+$endif$
 
 \date{\textsc{$date$}}
 
@@ -155,7 +166,7 @@ $if(picktitlepage)$
 \input{titlepage.tex}
 $endif$
 
-\chapterstyle{article-4} 
+\chapterstyle{article-4}
 \maketitle%
 %
 \pagestyle{mhm}

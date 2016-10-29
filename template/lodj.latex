@@ -157,6 +157,12 @@ $if(verbatim-in-note)$
 \VerbatimFootnotes % allows verbatim text in footnotes
 $endif$
 
+$if(picktitlepage)$
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+$endif$
+
 $if(title)$
 \title{\normalsize\MakeUppercase{$title$}$if(subtitle)$\\ \small $subtitle$ $endif$}
 $endif$
@@ -187,7 +193,9 @@ $endif$
 \usepackage[shortlabels]{enumitem}
 \usepackage[obeyFinal,colorinlistoftodos,textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
 \presetkeys{todonotes}{inline, color=green!40}{}
-\pagestyle{myheadings}
+
+%\pagestyle{myheadings}
+
 \usepackage{titlesec}
 \renewcommand\thesection{\Roman{section}}
 \renewcommand\thesubsection{\Roman{subsection}}
@@ -215,24 +223,28 @@ $endfor$
 \begin{document}
 $if(notitlepage)$
 $else$
-$if(picktitlepage)$
-\thispagestyle{empty}
-\input{titlepage.tex}
-$else$
-$if(title)$
-\setstretch{1}
-\maketitle
-\setstretch{$linestretch$}
-$if(titlepage)$%If titlepage is TRUE, create separate title page else do not
-\thispagestyle{empty}
-\pagenumbering{Alph}
-\pagenumbering{gobble}
-\newpage
-\pagenumbering{arabic}
-$else$
-$endif$
-$endif$
-$endif$
+    $if(picktitlepage)$
+        \thispagestyle{empty}
+        \input{titlepage.tex}
+        \pagenumbering{Alph}
+        \pagenumbering{gobble}
+        \newpage
+        \pagenumbering{arabic}
+    $else$
+        $if(title)$
+            \setstretch{1}
+            \maketitle
+            \setstretch{$linestretch$}
+            $if(titlepage)$%If titlepage is TRUE, create separate title page else do not
+                \thispagestyle{empty}
+                \pagenumbering{Alph}
+                \pagenumbering{gobble}
+                \newpage
+                \pagenumbering{arabic}
+            $else$
+            $endif$
+        $endif$
+    $endif$
 $endif$
 
 $if(abstract)$
