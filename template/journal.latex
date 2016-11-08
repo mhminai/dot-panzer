@@ -265,13 +265,17 @@ $if(endfloat)$
 %\AtBeginTables{\pagestyle{plain}}
 %\AtBeginFigures{\pagestyle{plain}}
 \renewcommand\floatplace[1]{%
+    $if(linestretch)$
     \setstretch{1}
+    $endif$
     \begin{center}
         \texttt{-----------------------------------------------------------------}\\
         \csname #1name\endcsname ~\csname thepost#1\endcsname\ about here.\\
         \texttt{-----------------------------------------------------------------}
     \end{center}
+    $if(linestretch)$
     \setstretch{$linestretch$}
+    $endif$
 }
 $endif$
 
@@ -300,7 +304,7 @@ $if(style-aomj)$
 $endif$
 
 $if(style-aomj)$
-\usepackage{titlesec}
+%\usepackage{titlesec}
 \renewcommand\thesection{\Roman{section}}
 \renewcommand\thesubsection{\Roman{subsection}}
 \renewcommand\thesubsubsection{\Roman{subsubsection}}
@@ -322,7 +326,7 @@ $endif$
 $endif$
 
 $if(style-leadjou)$
-\usepackage{titlesec}
+%\usepackage{titlesec}
 \renewcommand\thesection{\Roman{section}}
 \renewcommand\thesubsection{\Roman{subsection}}
 \renewcommand\thesubsubsection{\Roman{subsubsection}}
@@ -344,7 +348,7 @@ $endif$
 $endif$
 
 $if(style-jlos)$
-\usepackage{titlesec}
+%\usepackage{titlesec}
 \renewcommand\thesection{\Roman{section}}
 \renewcommand\thesubsection{\Roman{subsection}}
 \renewcommand\thesubsubsection{\Roman{subsubsection}}
@@ -366,7 +370,7 @@ $endif$
 $endif$
 
 $if(style-lodj)$
-\usepackage{titlesec}
+%\usepackage{titlesec}
 \renewcommand\thesection{\Roman{section}}
 \renewcommand\thesubsection{\Roman{subsection}}
 \renewcommand\thesubsubsection{\Roman{subsubsection}}
@@ -430,9 +434,13 @@ $if(picktitlepage)$
 \pagenumbering{arabic}
 $else$
 $if(title)$
+$if(linestretch)$
 \setstretch{1}
+$endif$
 \maketitle
+$if(linestretch)$
 \setstretch{$linestretch$}
+$endif$
 $if(titleonpage)$%If titleonpage is TRUE, create separate title page else do not
 \thispagestyle{empty}
 \pagenumbering{Alph}

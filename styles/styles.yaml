@@ -82,7 +82,6 @@ Plain:
             fontsize: 11pt
             linestretch: 1.25
             classoption: a4paper
-            reference-section-title: References
             titleonpage: TRUE
             abstractonpage: TRUE
             titlesec: TRUE
@@ -90,6 +89,12 @@ Plain:
         commandline:
             default-image-extension: "`pdf`"
         template: plain.latex
+
+PlainX:
+    parent: Plain
+    latex:
+        commandline:
+            latex-engine: "`xelatex`"
 
 Pres:
     beamer:
@@ -133,11 +138,12 @@ Journal:
             linestretch: 2
             classoption: a4paper
             endfloat: TRUE
+            titlesec: TRUE
             titleonpage: TRUE
             abstractonpage: TRUE
         commandline:
             default-image-extension: "`pdf`"
-        template: plain.latex
+        template: journal.latex
 
 AomStyle:
     parent: Journal
