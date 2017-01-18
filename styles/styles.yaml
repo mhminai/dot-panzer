@@ -90,6 +90,13 @@ Plain:
             default-image-extension: "`pdf`"
         template: plain.latex
 
+PlainKoma:
+    parent: Plain
+    latex:
+        metadata:
+            documentclass: scrartcl
+        template: koma.latex
+
 PlainX:
     parent: Plain
     latex:
@@ -123,6 +130,7 @@ Pres:
 Journal:
     all:
         metadata:
+            csl: "/Users/mhminai/.panzer/template/csl/apa_nodoi.csl"
             reference-section-title: References
         filter:
             - run: pandoc-citeproc
@@ -145,6 +153,18 @@ Journal:
             default-image-extension: "`pdf`"
         template: journal.latex
 
+ApaStyle:
+    parent:
+        - Journal
+        - BiblatexPdf
+    latex:
+        commandline:
+            include-after-body:
+                - "`appendix.tex`"
+        metadata:
+            biblatexoptions: [style=apa, sortcites=true, sorting=nyt, backend=biber, isbn=false, url=false, doi=false]
+            classoption: letterpaper
+
 AomStyle:
     parent: Journal
     all:
@@ -157,6 +177,8 @@ AomStyle:
     docx:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/aomj_styles.docx`"
+        filter:
+            - run: collect_floats.py
 
 LeadJouStyle:
     parent: Journal
@@ -187,7 +209,7 @@ CIM:
     parent: Journal
     all:
         metadata:
-            csl: /Users/mhminai/.panzer/template/csl/cim.csl
+            csl: "/Users/mhminai/.panzer/template/csl/cim.csl"
         filter:
             - run: collect_floats.py
     latex:
@@ -212,10 +234,12 @@ LodjStyle:
             style-lodf: TRUE
 
 ReferJournals:
-    parent: Journal
+    parent:
+        - Journal
+        - BiblatexPdf
     all:
         metadata:
-            csl: /Users/mhminai/.panzer/template/csl/alpha_references.csl
+            csl: "/Users/mhminai/.panzer/template/csl/alpha_references.csl"
     latex:
         metadata:
             fontfamily: libertine
@@ -224,6 +248,9 @@ ReferJournals:
 
 BiblatexPdf:
     latex:
+        metadata:
+            filter:
+                - kill: pandoc-citeproc
         commandline:
             biblatex: true
         preflight:
@@ -272,3 +299,24 @@ Book:
             default-image-extension: "`pdf`"
             biblatex: false
         template: book.latex
+
+Thesis:
+    parent: Plain
+    latex:
+        metadata:
+        #    geometry: margin=1.25in
+        #    fontsize: 11pt
+        #    linestretch: 1.25
+        #    classoption: a4paper
+        #    titleonpage: TRUE
+        #    abstractonpage: TRUE
+        #    titlesec: TRUE
+            titlesecoptions: [sf, small, raggedright, compact]
+        commandline:
+            table-of-contents: true
+            toc-depth: "`2`"
+            chapters: true
+            number-sections: true
+
+        #    default-image-extension: "`pdf`"
+        template: journal.latex

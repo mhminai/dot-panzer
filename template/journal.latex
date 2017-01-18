@@ -110,7 +110,11 @@ $if(natbib)$
 $endif$
 
 $if(biblatex)$
-\usepackage$if(biblio-style)$[style=$biblio-style$]$endif${biblatex}
+$if(biblio-style)$
+\usepackage[$if(biblio-style)$style=$biblio-style$$endif$]{biblatex}
+$else$
+\usepackage[$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
+$endif$
 $if(biblatexoptions)$\ExecuteBibliographyOptions{$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$}$endif$
 %\usepackage[style=apa,sortcites=true,sorting=nyt,backend=biber,isbn=false,url=false,doi=false]{biblatex}
 $for(bibliography)$
@@ -269,9 +273,9 @@ $if(endfloat)$
     \setstretch{1}
     $endif$
     \begin{center}
-        \texttt{-----------------------------------------------------------------}\\
+        \texttt{---------------------------------------------}\\
         \csname #1name\endcsname ~\csname thepost#1\endcsname\ about here.\\
-        \texttt{-----------------------------------------------------------------}
+        \texttt{---------------------------------------------}
     \end{center}
     $if(linestretch)$
     \setstretch{$linestretch$}
