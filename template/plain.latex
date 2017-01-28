@@ -186,6 +186,11 @@ $if(dir)$
   \newenvironment{LTR}{\beginL}{\endL}
 \fi
 $endif$
+
+\usepackage[shortlabels]{enumitem}
+\usepackage[obeyFinal,colorinlistoftodos,textsize=footnotesize,backgroundcolor=green!20!white]{todonotes}
+\presetkeys{todonotes}{inline, color=green!40}{}
+
 $for(header-includes)$
 $header-includes$
 $endfor$

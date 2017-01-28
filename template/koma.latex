@@ -187,6 +187,13 @@ $if(dir)$
   \newenvironment{LTR}{\beginL}{\endL}
 \fi
 $endif$
+
+\usepackage[shortlabels]{enumitem}
+\usepackage[obeyFinal,colorinlistoftodos,textsize=footnotesize,shadow]{todonotes}
+\presetkeys{todonotes}{inline, color=yellow!40}{}
+\newcommand{\comment}[1]{\todo[backgroundcolor=green!20!white]{#1}}
+\usepackage[xcolor]{mdframed}
+
 $for(header-includes)$
 $header-includes$
 $endfor$
