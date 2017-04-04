@@ -229,9 +229,11 @@ LodjStyle:
     docx:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/lodj_styles.docx`"
+        filter:
+            - run: collect_floats.py
     latex:
         metadata:
-            style-lodf: TRUE
+            style-lodj: TRUE
 
 ReferJournals:
     parent:
