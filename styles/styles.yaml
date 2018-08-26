@@ -138,7 +138,7 @@ Journal:
             - run: pandoc-citeproc
     docx:
         commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
+            reference-doc: "`/Users/mhminai/.panzer/template/docx/apa_styles.docx`"
             default-image-extension: "`png`"
     latex:
         metadata:
@@ -182,7 +182,7 @@ AomStyle:
             nojustify: TRUE
     docx:
         commandline:
-            reference-docx: "`/Users/mhminai/.panzer/template/docx/aomj_styles.docx`"
+            reference-doc: "`/Users/mhminai/.panzer/template/docx/aomj_styles.docx`"
         filter:
             - run: collect_floats.py
 
