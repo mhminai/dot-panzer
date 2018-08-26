@@ -185,6 +185,7 @@ $endif$
 % style-refer has a \parindent of 0.2in, check and add if necessary
 % style-jlos has a \parindent of 0.3in, check and add if necessary
 $if(indent)$
+\setlength{\parindent}{0.5in}
 $else$
 \IfFileExists{parskip.sty}{%
 \usepackage{parskip}
@@ -315,9 +316,9 @@ $if(style-aomj)$
 \titleformat{\section}[block]{\bfseries\centering}{\thesection.}{1em}{\MakeUppercase}
 \titleformat{\subsection}[block]{\bfseries}{\thesubsection.}{1em}{}
 \titleformat{\subsubsection}[runin]{\bfseries\itshape}{\thesubsubsection.}{1em}{}[.]
-\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
-\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
-\titlespacing{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
+\titlespacing*{\section}{0pt}{12pt plus 4pt minus 2pt}{-4pt plus 2pt minus 2pt}
+\titlespacing*{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+\titlespacing*{\subsubsection}{\parindent}{12pt plus 4pt minus 2pt}{0.5em}
 
 $if(abstract)$
 \usepackage{abstract}

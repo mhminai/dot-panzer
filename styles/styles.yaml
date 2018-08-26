@@ -64,9 +64,11 @@ ChadStyle:
             sansfont: Optima
             monofont: Courier New
             reference-section-title: References
+        filter:
+            - run: pandoc-citeproc
         commandline:
             default-image-extension: "`pdf`"
-            latex-engine: "`xelatex`"
+            pdf-engine: "`xelatex`"
         template: chadstyle.latex
 
 Plain:
@@ -101,7 +103,7 @@ PlainX:
     parent: Plain
     latex:
         commandline:
-            latex-engine: "`xelatex`"
+            pdf-engine: "`xelatex`"
 
 Pres:
     beamer:
@@ -116,7 +118,7 @@ Pres:
         commandline:
             table-of-contents: TRUE
             biblatex: TRUE
-            latex-engine: "`xelatex`"
+            pdf-engine: "`xelatex`"
             default-image-extension: "`pdf`"
             include-in-header: "`pres-include-header.tex`"
         template: beamer-m.latex
@@ -164,6 +166,8 @@ ApaStyle:
         metadata:
             biblatexoptions: [style=apa, sortcites=true, sorting=nyt, backend=biber, isbn=false, url=false, doi=false]
             classoption: letterpaper
+            indent: TRUE
+            nojustify: TRUE
 
 AomStyle:
     parent: Journal
@@ -174,6 +178,8 @@ AomStyle:
         metadata:
             classoption: letterpaper
             style-aomj: TRUE
+            indent: TRUE
+            nojustify: TRUE
     docx:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/aomj_styles.docx`"
@@ -210,16 +216,16 @@ CIM:
     all:
         metadata:
             csl: "/Users/mhminai/.panzer/template/csl/cim.csl"
-        filter:
-            - run: collect_floats.py
     latex:
         metadata:
             linestretch: 1.65
             style-aomj: TRUE
-            endfloat: FALSE  # collect_floats.py does this task for us
+            endfloat: TRUE
     docx:
         commandline:
             reference-docx: "`/Users/mhminai/.panzer/template/docx/cim_styles.docx`"
+        filter:
+            - run: collect_floats.py
 
 LodjStyle:
     parent: Journal
@@ -271,7 +277,7 @@ Story:
             sansfont: Optima
             monofont: Courier New
         commandline:
-            latex-engine: "`xelatex`"
+            pdf-engine: "`xelatex`"
         template: plain.latex
         preflight:
             - run: tmp_out.py
@@ -284,7 +290,7 @@ Notes:
     parent: Plain
     latex:
         commandline:
-            latex-engine: "`xelatex`"
+            pdf-engine: "`xelatex`"
         template: notes.latex
 
 Book:
